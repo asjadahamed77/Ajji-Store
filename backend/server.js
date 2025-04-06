@@ -3,6 +3,7 @@ import cors from 'cors'
 import 'dotenv/config'
 import connectDB from './config/mongodb.js'
 import connectCloudinary from './config/cloudinary.js'
+import authRouter from './routes/authRoutes.js'
 
 
 
@@ -19,7 +20,7 @@ app.use(express.json())
 app.use(cors())
 
 // API ENDPOINTS
-
+app.use('/api/auth',authRouter)
 
 
 app.get('/',(req,res)=>{
