@@ -27,7 +27,9 @@ export const register = createAsyncThunk(
         }
       });
       if (data.success) {
-        return { message: data.message, userData: data.userData };
+        localStorage.setItem("userInfo", JSON.stringify(data.user));
+        localStorage.setItem("userToken", data.token);
+        return data
       } else {
         return rejectWithValue(data.message);
       }
@@ -40,17 +42,19 @@ export const register = createAsyncThunk(
 // VERIFY EMAIL
 export const verifyEmail = createAsyncThunk(
   "auth/verifyEmail",
-  async ({ otp, userData }, { rejectWithValue }) => {
+  async ({ otp }, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
         `${backendUrl}/api/auth/verify-email`,
-        { otp, userData },
-        { withCredentials: true }
+        { otp },
+        { withCredentials: true, headers: {
+          'Content-Type': 'application/json',
+        } }
       );
 
       if (data.success) {
         localStorage.setItem("userInfo", JSON.stringify(data.user));
-        return { message: data.message, user: data.user };
+        return { data, message: data.message };
       } else {
         return rejectWithValue(data.message);
       }
@@ -134,7 +138,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.successMessage = action.payload.message;
         state.user = action.payload.user;
-        state.userData = null;
+      
         toast.success(action.payload.message);
       })
       .addCase(verifyEmail.rejected, (state, action) => {

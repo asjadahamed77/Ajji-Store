@@ -11,7 +11,7 @@ function App() {
   const location = useLocation();
 
   const isAuthPage =
-    location.pathname === "/register-user" || location.pathname === "/login";
+    location.pathname === "/register-user" || location.pathname === "/login" ;
 
   return (
     <>
@@ -34,6 +34,7 @@ function App() {
         <Routes>
           <Route path="register-user" element={<RegisterUser />} />
           <Route path="login" element={<Login />} />
+       
         </Routes>
       </Provider>
     </>
