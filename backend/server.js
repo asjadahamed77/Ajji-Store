@@ -4,20 +4,24 @@ import 'dotenv/config'
 import connectDB from './config/mongodb.js'
 import connectCloudinary from './config/cloudinary.js'
 import authRouter from './routes/authRoutes.js'
+import cookieParser from 'cookie-parser'
 
 
 
 //App Config
 const app = express()
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 4000
 connectDB()
 connectCloudinary()
 
+const allowedOrigins = ['http://localhost:5173','http://localhost:5174']
 
 
-// MIDDLEWARES
 app.use(express.json())
-app.use(cors())
+app.use(cookieParser())
+app.use(cors({origin: allowedOrigins, credentials: true}))
+
+
 
 // API ENDPOINTS
 app.use('/api/auth',authRouter)
