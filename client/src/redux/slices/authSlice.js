@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { backendUrl } from "../../api/api";
+import toast from "react-hot-toast";
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
@@ -8,13 +9,13 @@ const userInfoFromStorage = localStorage.getItem("userInfo")
 
 const initialState = {
   user: userInfoFromStorage || null,
-  userData: null, // for pre-verified user data
+  userData: null,
   loading: false,
   error: null,
   successMessage: null,
 };
 
-// REGISTER - send OTP and store temp userData
+// REGISTER
 export const register = createAsyncThunk(
   "auth/register",
   async (formData, { rejectWithValue }) => {
@@ -36,7 +37,7 @@ export const register = createAsyncThunk(
   }
 );
 
-// VERIFY EMAIL - verify OTP and save user
+// VERIFY EMAIL
 export const verifyEmail = createAsyncThunk(
   "auth/verifyEmail",
   async ({ otp, userData }, { rejectWithValue }) => {
@@ -45,12 +46,10 @@ export const verifyEmail = createAsyncThunk(
         `${backendUrl}/api/auth/verify-email`,
         { otp, userData },
         { withCredentials: true }
-        
       );
 
       if (data.success) {
         localStorage.setItem("userInfo", JSON.stringify(data.user));
-
         return { message: data.message, user: data.user };
       } else {
         return rejectWithValue(data.message);
@@ -116,11 +115,13 @@ const authSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.loading = false;
         state.successMessage = action.payload.message;
-        state.userData = action.payload.userData; 
+        state.userData = action.payload.userData;
+        toast.success(action.payload.message);
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        toast.error(action.payload);
       })
 
       // VERIFY EMAIL
@@ -133,11 +134,13 @@ const authSlice = createSlice({
         state.loading = false;
         state.successMessage = action.payload.message;
         state.user = action.payload.user;
-        state.userData = null; // clear temp
+        state.userData = null;
+        toast.success(action.payload.message);
       })
       .addCase(verifyEmail.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        toast.error(action.payload);
       })
 
       // LOGIN
@@ -150,10 +153,12 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.successMessage = action.payload.message;
+        toast.success(action.payload.message);
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        toast.error(action.payload);
       })
 
       // LOGOUT
@@ -162,9 +167,11 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.successMessage = null;
+        toast.success("Logged out successfully");
       })
       .addCase(logout.rejected, (state, action) => {
         state.error = action.payload;
+        toast.error(action.payload);
       });
   },
 });

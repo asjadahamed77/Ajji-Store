@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import logo from '../assets/logo/AjjiStore.png'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { register } from '../redux/slices/authSlice';
+
 
 const RegisterUser = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const {loading} = useSelector((state) => state.auth);
   // Use state to manage form data
   const [formData, setFormData] = useState({
     name: '',
@@ -28,25 +30,29 @@ const RegisterUser = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+   
     const result = await dispatch(register(formData));
 
     if (register.fulfilled.match(result)) {
+     
       navigate("/verify-email");
+      setFormData({
+        name: '',
+        username: '',
+        email: '',
+        password: '',
+        phone: ''
+      });
     }
+   
     
     
-    setFormData({
-      name: '',
-      username: '',
-      email: '',
-      password: '',
-      phone: ''
-    });
+   
   };
 
   return (
     <div className='flex flex-col items-center justify-center h-screen'>
-      <div className='lg:w-[400px] w-[330px] flex flex-col backdrop-blur-3xl rounded-[25px] shadow-md drop-shadow-blue-50 px-4 py-6'>
+      <div className='lg:w-[400px] w-[350px] flex flex-col backdrop-blur-[200px]  rounded-[20px] shadow-lg px-4 py-6'>
         <h1 className='flex items-center gap-4 text-2xl font-semibold'>
           Register to <img src={logo} alt="Ajji-Store" className='w-28' />
         </h1>
@@ -93,13 +99,17 @@ const RegisterUser = () => {
           />
           <button 
             type='submit' 
-            className='text-sm bg-white rounded py-2 w-full text-blue-950 font-medium cursor-pointer hover:opacity-80 duration-300'>
-            Create Account
+        
+            disabled={loading}
+            className={`text-sm bg-white rounded py-2 w-full text-blue-950 font-medium duration-300 
+                ${loading ? 'opacity-60 cursor-not-allowed' : 'hover:opacity-80 cursor-pointer'}`}
+            >
+            {loading?"Creating Account...":"Create Account"}
           </button>
         </form>
         <hr className='mt-4 h-0.25 border-none bg-blue-300 rounded-full' />
         <p className='text-sm mt-4 text-blue-100'>
-          Already have an account? <span className='font-medium hover:underline cursor-pointer'>Click here</span>
+          Already have an account? <span onClick={()=>navigate('/login')} className='font-medium hover:underline cursor-pointer'>Click here</span>
         </p>
       </div>
     </div>
