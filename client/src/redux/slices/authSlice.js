@@ -67,13 +67,17 @@ export const verifyEmail = createAsyncThunk(
 // LOGIN
 export const login = createAsyncThunk(
   "auth/login",
-  async (userData, { rejectWithValue }) => {
+  async (formData, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${backendUrl}/api/auth/login`, userData, {
+      const { data } = await axios.post(`${backendUrl}/api/auth/login`, formData, {
         withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
       if (data.success) {
         localStorage.setItem("userInfo", JSON.stringify(data.user));
+        localStorage.setItem("userToken", data.token);
         return data;
       } else {
         return rejectWithValue(data.message);
