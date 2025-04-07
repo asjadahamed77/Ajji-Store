@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+
+
+body{
+  background: linear-gradient(to right, #010b16 , #003355 , #010b16);
+  font-family: "Noto Sans", sans-serif;
+  color: #fff;
+}

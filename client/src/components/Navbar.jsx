@@ -24,6 +24,7 @@ const Navbar = ({setShowUserProfile}) => {
     { name: 'MacBooks', path: '/macbooks' },
     { name: 'Laptops', path: '/laptops' },
     { name: 'iPads', path: '/ipads' },
+    { name: 'tablets', path: '/tablets' },
     { name: 'AirPods', path: '/airpods' },
     { name: 'Watches', path: '/watches' },
     { name: 'Accessories', path: '/accessories' },
@@ -49,7 +50,7 @@ const Navbar = ({setShowUserProfile}) => {
             <NavLink
               to={link.path}
               className={({ isActive }) =>
-                `uppercase text-sm transition-all duration-300 ${
+                `uppercase text-xs xl:text-sm transition-all duration-300 ${
                   isActive ? 'text-white underline' : 'text-gray-300 hover:opacity-80 hover:underline'
                 }`
               }

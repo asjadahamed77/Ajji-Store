@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs"; 
+import { editUser } from "../redux/slices/authSlice";
 
 const UserProfile = ({ showUserProfile, setShowUserProfile }) => {
   const { user } = useSelector((state) => state.auth);
   const [editMode, setEditMode] = useState(false);
   const modalRef = useRef();
+  const dispatch = useDispatch()
 
   const [formData, setFormData] = useState({
     name: user.name || '',
@@ -32,7 +34,7 @@ const UserProfile = ({ showUserProfile, setShowUserProfile }) => {
   };
 
   const handleSave = () => {
-    // You can dispatch Redux update here
+    dispatch(editUser({id: user._id, ...formData}))
     setEditMode(false);
   };
 

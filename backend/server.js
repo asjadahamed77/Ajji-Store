@@ -5,6 +5,8 @@ import connectDB from './config/mongodb.js'
 import connectCloudinary from './config/cloudinary.js'
 import authRouter from './routes/authRoutes.js'
 import cookieParser from 'cookie-parser'
+import router from './routes/userRoutes.js'
+import adminRouter from './routes/adminRoutes.js'
 
 
 
@@ -25,6 +27,8 @@ app.use(cors({origin: allowedOrigins, credentials: true}))
 
 // API ENDPOINTS
 app.use('/api/auth',authRouter)
+app.use('/api/user', router)
+app.use('/api/admin', adminRouter)
 
 
 app.get('/',(req,res)=>{
