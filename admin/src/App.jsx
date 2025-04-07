@@ -1,34 +1,31 @@
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { Provider } from "react-redux";
-import store from "./redux/store";
 import { Toaster } from "react-hot-toast";
-import Login from "./pages/Login";
-import { useEffect, useState } from "react";
-import Sidebar from "./components/Sidebar";
 
-// This component handles redirect if no token
+import store from "./redux/store";
+
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import AddProduct from "./pages/AddProduct";
+import ViewProduct from "./pages/ViewProduct";
+import Orders from "./pages/Orders";
+import DashboardLayout from "./layout/DashboardLayout";
+
+
+// Auth protection
 const ProtectedRoute = ({ children }) => {
   const adminToken = localStorage.getItem("adminToken");
-
-  if (!adminToken) {
-    return <Navigate to="/login" replace />;
-  }
-
+  if (!adminToken) return <Navigate to="/login" replace />;
   return children;
 };
 
 function App() {
-  const adminToken = localStorage.getItem("adminToken");
-  const [showSidebar,setShowSidebar] = useState(false)
-
   return (
     <Provider store={store}>
       <Toaster
         position="top-center"
         reverseOrder={false}
         toastOptions={{
-          className: "",
           duration: 5000,
           removeDelay: 1000,
           style: {
@@ -38,28 +35,24 @@ function App() {
         }}
       />
 
-     
-
       <Routes>
+        {/* Public */}
         <Route path="/login" element={<Login />} />
 
-      
+        {/* Protected Routes with layout */}
         <Route
           path="/"
           element={
             <ProtectedRoute>
-              <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-             <div className="flex h-[93vh] overflow-y-scroll">
-             <div className=" h-full md:border-r">
-                <Sidebar  />
-              </div>
-              <div className="flex-grow h-full">
-
-              </div>
-             </div>
+              <DashboardLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<Home />} />
+          <Route path="add-product" element={<AddProduct />} />
+          <Route path="view-product" element={<ViewProduct />} />
+          <Route path="orders" element={<Orders />} />
+        </Route>
       </Routes>
     </Provider>
   );
