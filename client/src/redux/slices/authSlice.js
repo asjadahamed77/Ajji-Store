@@ -1,3 +1,4 @@
+// authSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { backendUrl } from "../../api/api";
@@ -22,14 +23,12 @@ export const register = createAsyncThunk(
     try {
       const { data } = await axios.post(`${backendUrl}/api/auth/register`, formData, {
         withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        }
+        headers: { 'Content-Type': 'application/json' },
       });
       if (data.success) {
         localStorage.setItem("userInfo", JSON.stringify(data.user));
         localStorage.setItem("userToken", data.token);
-        return data
+        return data;
       } else {
         return rejectWithValue(data.message);
       }
@@ -47,14 +46,15 @@ export const verifyEmail = createAsyncThunk(
       const { data } = await axios.post(
         `${backendUrl}/api/auth/verify-email`,
         { otp },
-        { withCredentials: true, headers: {
-          'Content-Type': 'application/json',
-        } }
+        {
+          withCredentials: true,
+          headers: { 'Content-Type': 'application/json' },
+        }
       );
 
       if (data.success) {
         localStorage.setItem("userInfo", JSON.stringify(data.user));
-        return { data, message: data.message };
+        return { data, user: data.user, message: data.message };
       } else {
         return rejectWithValue(data.message);
       }
@@ -71,9 +71,7 @@ export const login = createAsyncThunk(
     try {
       const { data } = await axios.post(`${backendUrl}/api/auth/login`, formData, {
         withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        }
+        headers: { 'Content-Type': 'application/json' },
       });
       if (data.success) {
         localStorage.setItem("userInfo", JSON.stringify(data.user));
@@ -100,6 +98,32 @@ export const logout = createAsyncThunk("auth/logout", async (_, { rejectWithValu
   }
 });
 
+// EDIT USER
+export const editUser = createAsyncThunk(
+  "user/editUser",
+  async ({ id, ...formData }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.put(`${backendUrl}/api/user/edit/${id}`, formData, {
+        withCredentials: true,
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (data.success) {
+        localStorage.setItem("userInfo", JSON.stringify(data.user));
+        toast.success(data.message);
+        return data.user;
+      } else {
+        return rejectWithValue(data.message);
+      }
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Profile update failed";
+      toast.error(errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+
 // SLICE
 const authSlice = createSlice({
   name: "auth",
@@ -125,12 +149,10 @@ const authSlice = createSlice({
         state.loading = false;
         state.successMessage = action.payload.message;
         state.user = action.payload.user;
-        toast.success(action.payload.message);
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        toast.error(action.payload);
       })
 
       // VERIFY EMAIL
@@ -143,13 +165,10 @@ const authSlice = createSlice({
         state.loading = false;
         state.successMessage = action.payload.message;
         state.user = action.payload.user;
-      
-        toast.success(action.payload.message);
       })
       .addCase(verifyEmail.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        toast.error(action.payload);
       })
 
       // LOGIN
@@ -162,12 +181,10 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.successMessage = action.payload.message;
-        toast.success(action.payload.message);
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        toast.error(action.payload);
       })
 
       // LOGOUT
@@ -176,11 +193,24 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.successMessage = null;
-        toast.success("Logged out successfully");
       })
       .addCase(logout.rejected, (state, action) => {
         state.error = action.payload;
-        toast.error(action.payload);
+      })
+
+      // EDIT USER
+      .addCase(editUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.successMessage = "Profile updated successfully";
+      })
+      .addCase(editUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
