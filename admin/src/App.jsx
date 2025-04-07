@@ -4,7 +4,8 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import { Toaster } from "react-hot-toast";
 import Login from "./pages/Login";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Sidebar from "./components/Sidebar";
 
 // This component handles redirect if no token
 const ProtectedRoute = ({ children }) => {
@@ -19,6 +20,7 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   const adminToken = localStorage.getItem("adminToken");
+  const [showSidebar,setShowSidebar] = useState(false)
 
   return (
     <Provider store={store}>
@@ -46,8 +48,15 @@ function App() {
           path="/"
           element={
             <ProtectedRoute>
-              <Navbar />
-              <div>Dashboard or Home Page</div>
+              <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+             <div className="flex h-[93vh] overflow-y-scroll">
+             <div className=" h-full md:border-r">
+                <Sidebar  />
+              </div>
+              <div className="flex-grow h-full">
+
+              </div>
+             </div>
             </ProtectedRoute>
           }
         />
