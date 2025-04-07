@@ -6,7 +6,7 @@ export const editUser = async (req, res) => {
       
       
       const { name, phone, addressLine, city, postalCode, country } = req.body;
-console.log("Request Body:", name);
+
  
   
       if (!id) {
