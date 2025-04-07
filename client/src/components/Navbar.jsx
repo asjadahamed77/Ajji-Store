@@ -7,11 +7,12 @@ import { CgMenuLeft } from "react-icons/cg";
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
 
-const Navbar = () => {
+const Navbar = ({setShowUserProfile}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {user} = useSelector((state)=> state.auth)
+  
 
   const logoutHandler = ()=>{
     dispatch(logout())
@@ -67,7 +68,7 @@ const Navbar = () => {
                 <div className="text-xl hover:opacity-80 transition-all duration-300 cursor-pointer">
           <IoMdCart />
         </div>
-        <div className="text-lg hover:opacity-80 transition-all duration-300 cursor-pointer">
+        <div onClick={()=>setShowUserProfile(true)} className="text-lg hover:opacity-80 transition-all duration-300 cursor-pointer">
           <FaUser />
         </div>
                </>

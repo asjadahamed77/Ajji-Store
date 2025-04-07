@@ -124,7 +124,7 @@ const authSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.loading = false;
         state.successMessage = action.payload.message;
-        state.userData = action.payload.userData;
+        state.user = action.payload.user;
         toast.success(action.payload.message);
       })
       .addCase(register.rejected, (state, action) => {

@@ -6,12 +6,16 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import { Toaster } from "react-hot-toast";
 import Login from "./authentication/Login";
+import UserProfile from "./components/UserProfile";
+import { useState } from "react";
 
 function App() {
   const location = useLocation();
 
   const isAuthPage =
-    location.pathname === "/register-user" || location.pathname === "/login" ;
+    location.pathname === "/register-user" || location.pathname === "/login";
+
+    const [showUserProfile,setShowUserProfile] = useState(false)
 
   return (
     <>
@@ -30,11 +34,13 @@ function App() {
           }}
         />
         {!isAuthPage && <TopBar />}
-        {!isAuthPage && <Navbar />}
+        {!isAuthPage && <Navbar setShowUserProfile={setShowUserProfile} />}
+       {
+        showUserProfile &&  <UserProfile showUserProfile={showUserProfile} setShowUserProfile={setShowUserProfile}  />
+       }
         <Routes>
           <Route path="register-user" element={<RegisterUser />} />
           <Route path="login" element={<Login />} />
-       
         </Routes>
       </Provider>
     </>

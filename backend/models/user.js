@@ -39,14 +39,17 @@ const userSchema = new mongoose.Schema(
         
             addressLine: {
               type: String,
+              default:""
               
             },
             city: {
               type: String,
+              default:""
            
             },
             postalCode: {
               type: String,
+              default:""
              
             },
             country: {
