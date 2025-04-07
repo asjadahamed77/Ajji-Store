@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
 import logo from '../assets/logo/AjjiStore.png';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { IoMdCart } from "react-icons/io";
 import { FaUser } from "react-icons/fa6";
 import { CgMenuLeft } from "react-icons/cg";
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../redux/slices/authSlice';
 
-const Navbar = () => {
+const Navbar = ({setShowUserProfile}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const {user} = useSelector((state)=> state.auth)
+  
+
+  const logoutHandler = ()=>{
+    dispatch(logout())
+  }
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -52,15 +62,29 @@ const Navbar = () => {
 
       {/* Cart, Profile, Login */}
       <div className="flex items-center gap-4">
-        <div className="text-xl hover:opacity-80 transition-all duration-300 cursor-pointer">
+        {
+            user? (
+               <>
+                <div className="text-xl hover:opacity-80 transition-all duration-300 cursor-pointer">
           <IoMdCart />
         </div>
-        <div className="text-lg hover:opacity-80 transition-all duration-300 cursor-pointer">
+        <div onClick={()=>setShowUserProfile(true)} className="text-lg hover:opacity-80 transition-all duration-300 cursor-pointer">
           <FaUser />
         </div>
-        <button className="text-sm text-blue-950 bg-white px-4 py-1 font-semibold rounded-full cursor-pointer hover:opacity-80 transition-all duration-300">
+               </>
+            ) : ("")
+        }
+       {
+        user ? (
+            <button onClick={logoutHandler}  className="text-sm text-blue-950 bg-white px-4 py-1 font-semibold rounded-full cursor-pointer hover:opacity-80 transition-all duration-300">
+          LOGOUT
+            </button>
+        ) : (
+            <button onClick={()=>navigate('/login')} className="text-sm text-blue-950 bg-white px-4 py-1 font-semibold rounded-full cursor-pointer hover:opacity-80 transition-all duration-300">
           LOGIN
-        </button>
+            </button>
+        )
+       }
       </div>
 
       {/* Mobile Navigation Drawer */}

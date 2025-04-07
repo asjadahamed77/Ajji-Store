@@ -27,7 +27,9 @@ export const register = createAsyncThunk(
         }
       });
       if (data.success) {
-        return { message: data.message, userData: data.userData };
+        localStorage.setItem("userInfo", JSON.stringify(data.user));
+        localStorage.setItem("userToken", data.token);
+        return data
       } else {
         return rejectWithValue(data.message);
       }
@@ -40,17 +42,19 @@ export const register = createAsyncThunk(
 // VERIFY EMAIL
 export const verifyEmail = createAsyncThunk(
   "auth/verifyEmail",
-  async ({ otp, userData }, { rejectWithValue }) => {
+  async ({ otp }, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
         `${backendUrl}/api/auth/verify-email`,
-        { otp, userData },
-        { withCredentials: true }
+        { otp },
+        { withCredentials: true, headers: {
+          'Content-Type': 'application/json',
+        } }
       );
 
       if (data.success) {
         localStorage.setItem("userInfo", JSON.stringify(data.user));
-        return { message: data.message, user: data.user };
+        return { data, message: data.message };
       } else {
         return rejectWithValue(data.message);
       }
@@ -63,13 +67,17 @@ export const verifyEmail = createAsyncThunk(
 // LOGIN
 export const login = createAsyncThunk(
   "auth/login",
-  async (userData, { rejectWithValue }) => {
+  async (formData, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${backendUrl}/api/auth/login`, userData, {
+      const { data } = await axios.post(`${backendUrl}/api/auth/login`, formData, {
         withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
       if (data.success) {
         localStorage.setItem("userInfo", JSON.stringify(data.user));
+        localStorage.setItem("userToken", data.token);
         return data;
       } else {
         return rejectWithValue(data.message);
@@ -85,6 +93,7 @@ export const logout = createAsyncThunk("auth/logout", async (_, { rejectWithValu
   try {
     await axios.post(`${backendUrl}/api/auth/logout`, {}, { withCredentials: true });
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("userToken");
     return true;
   } catch (error) {
     return rejectWithValue("Logout failed");
@@ -115,7 +124,7 @@ const authSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.loading = false;
         state.successMessage = action.payload.message;
-        state.userData = action.payload.userData;
+        state.user = action.payload.user;
         toast.success(action.payload.message);
       })
       .addCase(register.rejected, (state, action) => {
@@ -134,7 +143,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.successMessage = action.payload.message;
         state.user = action.payload.user;
-        state.userData = null;
+      
         toast.success(action.payload.message);
       })
       .addCase(verifyEmail.rejected, (state, action) => {
