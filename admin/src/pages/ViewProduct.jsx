@@ -10,7 +10,10 @@ const ViewProduct = () => {
 
 
   const deleteProductHandler = (id)=>{
+    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+  if (confirmDelete) {
     dispatch(deleteProduct(id));
+  }
   }
 
   useEffect(() => {
@@ -107,7 +110,7 @@ const ViewProduct = () => {
             <p className="text-blue-300">{formatDate(product.createdAt)}</p>
 
             <div className="grid grid-cols-2 gap-4 mt-6">
-              <button className="bg-white text-blue-950 font-semibold py-2 rounded-md cursor-pointer hover:opacity-70 duration-300 transition-all">
+              <button onClick={()=> navigate(`/edit/${product._id}`)} className="bg-white text-blue-950 font-semibold py-2 rounded-md cursor-pointer hover:opacity-70 duration-300 transition-all">
                 UPDATE PRODUCT
               </button>
               <button  onClick={() => deleteProductHandler(product._id)} className="bg-white text-red-500 font-semibold py-2 rounded-md cursor-pointer hover:opacity-70 duration-300 transition-all">

@@ -1,4 +1,3 @@
-
 import cloudinary from '../config/cloudinary.js'; 
 import fs from 'fs';
 import { Product } from '../models/product.js';
@@ -63,38 +62,87 @@ export const addProduct = async (req, res) => {
 };
 
 export const editProduct = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const updateFields = req.body;
-
-    if (updateFields.specifications) {
-      updateFields.specifications = JSON.parse(updateFields.specifications);
+    try {
+      const product = await Product.findById(req.params.id);
+      if (!product) {
+        return res.status(404).json({ success: false, message: "Product not found" });
+      }
+  
+      // Update basic details
+      product.name = req.body.name || product.name;
+      product.brand = req.body.brand || product.brand;
+      product.description = req.body.description || product.description;
+      product.category = req.body.category || product.category;
+  
+      const variantCategories = ["mobile", "laptop", "macbook", "ipad", "tablet", "watch"];
+  
+      console.log("Category:", product.category);
+      console.log("Is variant category:", variantCategories.includes(product.category));
+      console.log("Variants from request:", req.body.variants);
+  
+      // Handle variants for specific categories
+      if (variantCategories.includes(product.category)) {
+        if (req.body.variants) {
+          try {
+            const parsedVariants = JSON.parse(req.body.variants);
+            console.log("Parsed variants:", parsedVariants);
+            
+            // Ensure each variant has the required fields
+            const validVariants = parsedVariants.map(variant => ({
+              storage: variant.storage || "",
+              color: variant.color || "",
+              price: Number(variant.price) || 0,
+              stock: Number(variant.stock) || 0
+            }));
+            
+            product.variants = validVariants;
+            console.log("Updated product variants:", product.variants);
+          } catch (error) {
+            console.error("Error parsing variants:", error);
+            return res.status(400).json({ success: false, message: "Invalid variants data" });
+          }
+        }
+      } else {
+        product.price = req.body.price || product.price;
+        product.stock = req.body.stock || product.stock;
+      }
+  
+      // Handle specifications
+      if (req.body.specifications) {
+        product.specifications = JSON.parse(req.body.specifications);
+      }
+  
+      // Handle existing images
+      if (req.body.existingImages) {
+        const existingImages = JSON.parse(req.body.existingImages);
+        product.images = existingImages;
+      }
+  
+      // Handle new image uploads
+      if (req.files && req.files.length > 0) {
+        const uploadedImages = await Promise.all(
+          req.files.map(async (file) => {
+            const upload = await uploadToCloudinary(file.path);
+            fs.unlinkSync(file.path); // remove local file after upload
+            return upload;
+          })
+        );
+        
+        // Append new images to existing images if needed
+        product.images = [...product.images, ...uploadedImages].slice(0, 6); // Limiting to a max of 6 images
+      }
+  
+      // Save the updated product
+      await product.save();
+  
+      return res.status(200).json({ success: true, product });
+    } catch (error) {
+      console.log("Edit Product Error:", error);
+      return res.status(500).json({ success: false, message: "Failed to update product." });
     }
-    if (updateFields.variants) {
-      updateFields.variants = JSON.parse(updateFields.variants);
-    }
-
-    const images = Object.values(req.files || {}).flat();
-
-    if (images.length > 0) {
-      const uploadedImages = await Promise.all(
-        images.map(async (img) => {
-          const upload = await uploadToCloudinary(img.path);
-          fs.unlinkSync(img.path);
-          return upload;
-        })
-      );
-      updateFields.images = uploadedImages;
-    }
-
-    const updatedProduct = await Product.findByIdAndUpdate(id, updateFields, { new: true });
-    res.status(200).json({ success: true, product: updatedProduct });
-  } catch (err) {
-    console.error("Edit Product Error:", err);
-    res.status(500).json({ success: false, message: "Server Error" });
-  }
-};
-
+  };
+  
+  
 export const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
@@ -138,3 +186,19 @@ export const getProductsByCategory = async (req, res) => {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
+export const getSingleProduct = async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      
+      const product = await Product.findById(id);
+      if (!product) {
+        return res.status(404).json({ success: false, message: 'Product not found' });
+      }
+      res.status(200).json({ success: true, product });
+    } catch (err) {
+      console.error('Get Single Product Error:', err);
+      res.status(500).json({ success: false, message: 'Server Error' });
+    }
+  };
