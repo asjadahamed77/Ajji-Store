@@ -59,6 +59,53 @@ export const addProduct = createAsyncThunk(
   }
 );
 
+// VIEW PRODUCT
+export const viewProduct = createAsyncThunk(
+  "admin/viewProduct",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`${backendUrl}/api/admin/product/all`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
+      });
+
+      if (data.success) {
+        return data;
+      } else {
+        return rejectWithValue(data.message);
+      }
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Failed to view product.");
+    }
+  }
+);
+// Delete product
+export const deleteProduct = createAsyncThunk(
+  "admin/deleteProduct",
+  async (productId, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.delete(`${backendUrl}/api/admin/product/${productId}`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
+      });
+
+      if (data.success) {
+        return { id: productId }; 
+      } else {
+        return rejectWithValue(data.message);
+      }
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Failed to delete product.");
+    }
+  }
+);
+
+
 const adminSlice = createSlice({
   name: "admin",
   initialState,
@@ -112,7 +159,38 @@ const adminSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         toast.error(action.payload);
-      });
+      })
+      // VIEW PRODUCT
+      .addCase(viewProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.successMessage = null;
+      })
+      .addCase(viewProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products = action.payload.products; 
+        state.successMessage = "Products fetched successfully";
+      })
+      .addCase(viewProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        toast.error(action.payload);
+      })
+         // DELETE PRODUCT
+         .addCase(deleteProduct.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+        })
+        .addCase(deleteProduct.fulfilled, (state, action) => {
+          state.loading = false;
+          state.products = state.products.filter(product => product._id !== action.payload.id);
+          toast.success("Product deleted successfully");
+        })
+        .addCase(deleteProduct.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+          toast.error(action.payload);
+        });
   },
 });
 

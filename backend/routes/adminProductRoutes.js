@@ -1,5 +1,5 @@
 import express from "express"
-import { addProduct } from "../controllers/productController.js"
+import { addProduct, deleteProduct, getProducts } from "../controllers/productController.js"
 import authAdmin from "../middlewares/adminAuth.js"
 import upload from "../middlewares/multer.js"
 
@@ -11,5 +11,8 @@ adminProductRouter.post(
     upload.array('images', 6), 
     addProduct
   );
+
+  adminProductRouter.get('/all', authAdmin, getProducts);
+  adminProductRouter.delete('/:id', authAdmin, deleteProduct);
 
 export default adminProductRouter
