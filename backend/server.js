@@ -19,7 +19,7 @@ connectDB()
 
 
 
-const allowedOrigins = ['http://localhost:5173','http://localhost:5174']
+const allowedOrigins = ['http://localhost:5173','http://localhost:5174','https://ajji-store-client.vercel.app','https://ajji-store-admin.vercel.app']
 
 
 app.use(express.json())
