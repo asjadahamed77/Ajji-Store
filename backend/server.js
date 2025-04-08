@@ -36,7 +36,7 @@ app.use('/api/admin/product', adminProductRouter)
 
 
 app.get('/',(req,res)=>{
-    res.send("API WORKING")
+    res.send("API WORKING...")
 })
 
 app.listen(port,()=> console.log("Server Started on Port",port))
