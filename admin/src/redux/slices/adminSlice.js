@@ -3,9 +3,12 @@ import axios from "axios";
 import { backendUrl } from "../../api/api";
 import toast from "react-hot-toast";
 
+
+
 const initialState = {
   admin: null,
   loading: false,
+  products: [],
   error: null,
   successMessage: null,
 };
@@ -32,9 +35,30 @@ export const login = createAsyncThunk(
   }
 );
 
+// ADD PRODUCT
+export const addProduct = createAsyncThunk(
+  "admin/addProduct",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${backendUrl}/api/admin/product/add`, formData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
+      });
 
+      if (data.success) {
+        return data;
+      } else {
+        return rejectWithValue(data.message);
+      }
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Failed to add product.");
+    }
+  }
+);
 
-// SLICE
 const adminSlice = createSlice({
   name: "admin",
   initialState,
@@ -71,6 +95,24 @@ const adminSlice = createSlice({
         toast.error(action.payload);
       })
 
+      // ADD PRODUCT
+      .addCase(addProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.successMessage = null;
+      })
+      .addCase(addProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products.push(action.payload.product); 
+        state.successMessage = "Product Added";
+        toast.success("Product added successfully");
+        
+      })
+      .addCase(addProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        toast.error(action.payload);
+      });
   },
 });
 

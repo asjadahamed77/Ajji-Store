@@ -4,14 +4,20 @@ import { TbDeviceAirpods, TbDeviceMobileSearch } from "react-icons/tb";
 import { RiMacbookFill } from "react-icons/ri";
 import { BsFillLaptopFill } from "react-icons/bs";
 import { IoMdTabletPortrait } from "react-icons/io";
-import { MdOutlineTabletMac } from "react-icons/md";
+import { MdOutlineTabletMac, MdClose } from "react-icons/md";
 import { IoWatch, IoImagesSharp } from "react-icons/io5";
-import { MdClose } from "react-icons/md";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addProduct } from "../redux/slices/adminSlice";
 
 const variantCategories = ["mobile", "laptop", "macbook", "ipad", "tablet", "watch"];
 
 const AddProduct = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, error } = useSelector((state) => state.admin);
+
   const [showCategories, setShowCategories] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [images, setImages] = useState([]);
@@ -87,23 +93,27 @@ const AddProduct = () => {
     formData.append("description", description);
 
     if (!variantCategories.includes(selectedCategory)) {
-      if (!price || !stock) return toast.error("Enter price and stock.");
+      if (!price || !stock) {
+        return toast.error("Enter price and stock.");
+      }
       formData.append("price", price);
       formData.append("stock", stock);
-    }
-
-    if (variantCategories.includes(selectedCategory)) {
+    } else {
       formData.append("variants", JSON.stringify(variants));
     }
 
     formData.append("specifications", JSON.stringify(specifications));
-
     images.forEach((img) => {
       formData.append("images", img);
     });
 
-    toast.success("Form submitted successfully (Mocked)");
-    // Submit logic here (e.g., axios.post)
+    try {
+      await dispatch(addProduct(formData));
+
+      navigate("/view-product");
+    } catch (err) {
+      toast.error("Something went wrong while adding the product.");
+    }
   };
 
   return (
@@ -141,12 +151,7 @@ const AddProduct = () => {
             <p className="font-semibold">Brand <span className="text-slate-500">*</span></p>
             <select className="p-2 bg-transparent w-full mt-1 border border-blue-200 rounded" value={brand} onChange={(e) => setBrand(e.target.value)}>
               <option value="">Select Brand</option>
-              {["Ambrane", "Anker", "Apple", "Asus", "Belkin", "boAt",
-                "Boult Audio", "ESR", "Fire-Boltt", "Generic", "Google Pixel",
-                "Infinix", "iQOO", "JBL", "Lenovo", "Mi", "Motorola", "Noise",
-                "Nokia", "OnePlus", "OPPO", "Portronics", "Realme", "Ringke",
-                "Samsung", "Sony", "Sony Xperia", "Spigen", "Tecno", "vivo",
-                "Xiaomi"].map((b) => (
+              {["Ambrane", "Anker", "Apple", "Asus", "Belkin", "boAt", "Boult Audio", "ESR", "Fire-Boltt", "Generic", "Google Pixel", "Infinix", "iQOO", "JBL", "Lenovo", "Mi", "Motorola", "Noise", "Nokia", "OnePlus", "OPPO", "Portronics", "Realme", "Ringke", "Samsung", "Sony", "Sony Xperia", "Spigen", "Tecno", "vivo", "Xiaomi"].map((b) => (
                 <option key={b} value={b}>{b}</option>
               ))}
             </select>
@@ -176,7 +181,6 @@ const AddProduct = () => {
             <p className="text-sm mt-1 text-slate-500">{images.length}/6 images selected</p>
           </div>
 
-          {/* Show variants or price/stock */}
           {variantCategories.includes(selectedCategory) ? (
             <div className="w-full">
               <p className="font-semibold">Variants</p>
@@ -204,7 +208,6 @@ const AddProduct = () => {
             </>
           )}
 
-          {/* Specifications */}
           <div className="w-full">
             <p className="font-semibold">Specifications</p>
             {specifications.map((spec, i) => (
@@ -217,7 +220,9 @@ const AddProduct = () => {
             <button type="button" onClick={addSpecification} className="text-blue-200 mt-2">+ Add Specification</button>
           </div>
 
-          <button type="submit" className="bg-white text-blue-950 px-4 py-2 mt-4 w-full rounded font-semibold  hover:opacity-80 transition-all">Submit</button>
+          <button type="submit" className="bg-white text-blue-950 px-4 py-2 mt-4 w-full rounded font-semibold hover:opacity-80 transition-all">
+            {loading ? "Submitting..." : "Submit"}
+          </button>
         </div>
       )}
     </form>
