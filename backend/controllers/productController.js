@@ -190,6 +190,7 @@ export const getSingleProduct = async (req, res) => {
       const { id } = req.params;
 
       
+      
       const product = await Product.findById(id);
       if (!product) {
         return res.status(404).json({ success: false, message: 'Product not found' });

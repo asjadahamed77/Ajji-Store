@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 const initialState = {  
     products: [],
     selectedProduct: null,
+    singleProduct: null,
     loading: false,
     error: null,
   };
@@ -20,6 +21,33 @@ const initialState = {
       } catch (error) {
         toast.error("Failed to load products by category");
         return rejectWithValue(error.response?.data?.message || error.message);
+      }
+    }
+  );
+
+  // Get single product
+export const getSingleProduct = createAsyncThunk(
+    "products/getSingleProduct",
+    async (productId, { rejectWithValue }) => {
+      try {
+        const { data } = await axios.get(
+          `${backendUrl}/api/product/product/${productId}`        
+        );
+    
+        
+  
+        if (data.success) {
+          
+          return data.product;
+         
+          
+        } else {
+          return rejectWithValue(data.message);
+        }
+      } catch (error) {
+        return rejectWithValue(
+          error.response?.data?.message || "Failed to fetch product."
+        );
       }
     }
   );
@@ -45,7 +73,24 @@ const initialState = {
         .addCase(fetchProductsByCategory.rejected, (state, action) => {
           state.loading = false;
           state.error = action.payload;
-        });
+        })
+          // GET SINGLE PRODUCT
+      .addCase(getSingleProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.singleProduct = null;
+      })
+      .addCase(getSingleProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.singleProduct = action.payload;
+
+      })
+      .addCase(getSingleProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.singleProduct = null;
+        toast.error(action.payload || "Failed to fetch product");
+      })
     },
   });
   

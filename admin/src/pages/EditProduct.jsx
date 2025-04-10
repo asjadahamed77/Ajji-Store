@@ -139,15 +139,7 @@ const EditProduct = () => {
     images.forEach((img) => formData.append("images", img));
 
     try {
-      console.log("Form data being sent:", {
-        name,
-        brand,
-        description,
-        category,
-        variants: variantCategories.includes(category) ? variants : undefined,
-        price: !variantCategories.includes(category) ? price : undefined,
-        stock: !variantCategories.includes(category) ? stock : undefined,
-      });
+      
       
       await dispatch(updateProduct({ productId: id, formData }));
       navigate("/view-product");
