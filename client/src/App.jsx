@@ -11,6 +11,7 @@ import { useState } from "react";
 import Search from "./components/Search";
 import Products from "./pages/Products";
 import ProductDisplay from "./pages/ProductDisplay";
+import Home from "./pages/Home";
 
 function App() {
   const location = useLocation();
@@ -44,6 +45,7 @@ function App() {
        }
         <Routes>
           <Route path="register-user" element={<RegisterUser />} />
+          <Route path="" element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="products/:category" element={<Products />} />
           <Route path="product/:id" element={<ProductDisplay />} />

@@ -1,15 +1,14 @@
-import cloudinary from '../config/cloudinary.js'; 
-import fs from 'fs';
-import { Product } from '../models/product.js';
-
+import cloudinary from "../config/cloudinary.js";
+import fs from "fs";
+import { Product } from "../models/product.js";
+import { log } from "console";
 
 // Helper to upload image to Cloudinary and return URL
 const uploadToCloudinary = async (path) => {
   const result = await cloudinary.uploader.upload(path, {
-    resource_type: 'image',
+    resource_type: "image",
   });
-  
-  
+
   return { url: result.secure_url, public_id: result.public_id };
 };
 
@@ -26,8 +25,7 @@ export const addProduct = async (req, res) => {
       specifications,
     } = req.body;
 
-    const images = req.files || []; 
-
+    const images = req.files || [];
 
     const uploadedImages = await Promise.all(
       images.map(async (img) => {
@@ -43,10 +41,14 @@ export const addProduct = async (req, res) => {
       category,
       description,
       specifications: JSON.parse(specifications),
-      images: uploadedImages, 
+      images: uploadedImages,
     });
 
-    if (["mobile", "laptop", "macbook", "ipad", "tablet", "watch"].includes(category)) {
+    if (
+      ["mobile", "laptop", "macbook", "ipad", "tablet", "watch"].includes(
+        category
+      )
+    ) {
       newProduct.variants = JSON.parse(variants);
     } else {
       newProduct.price = price;
@@ -62,90 +64,101 @@ export const addProduct = async (req, res) => {
 };
 
 export const editProduct = async (req, res) => {
-    try {
-      const product = await Product.findById(req.params.id);
-      if (!product) {
-        return res.status(404).json({ success: false, message: "Product not found" });
-      }
-  
-      // Update basic details
-      product.name = req.body.name || product.name;
-      product.brand = req.body.brand || product.brand;
-      product.description = req.body.description || product.description;
-      product.category = req.body.category || product.category;
-  
-      const variantCategories = ["mobile", "laptop", "macbook", "ipad", "tablet", "watch"];
-  
-    
-  
-      // Handle variants for specific categories
-      if (variantCategories.includes(product.category)) {
-        if (req.body.variants) {
-          try {
-            const parsedVariants = JSON.parse(req.body.variants);
-           
-            
-            // Ensure each variant has the required fields
-            const validVariants = parsedVariants.map(variant => ({
-              storage: variant.storage || "",
-              color: variant.color || "",
-              price: Number(variant.price) || 0,
-              stock: Number(variant.stock) || 0
-            }));
-            
-            product.variants = validVariants;
-      
-          } catch (error) {
-            console.error("Error parsing variants:", error);
-            return res.status(400).json({ success: false, message: "Invalid variants data" });
-          }
-        }
-      } else {
-        product.price = req.body.price || product.price;
-        product.stock = req.body.stock || product.stock;
-      }
-  
-      // Handle specifications
-      if (req.body.specifications) {
-        product.specifications = JSON.parse(req.body.specifications);
-      }
-  
-      // Handle existing images
-      if (req.body.existingImages) {
-        const existingImages = JSON.parse(req.body.existingImages);
-        product.images = existingImages;
-      }
-  
-      // Handle new image uploads
-      if (req.files && req.files.length > 0) {
-        const uploadedImages = await Promise.all(
-          req.files.map(async (file) => {
-            const upload = await uploadToCloudinary(file.path);
-            fs.unlinkSync(file.path); // remove local file after upload
-            return upload;
-          })
-        );
-        
-        // Append new images to existing images if needed
-        product.images = [...product.images, ...uploadedImages].slice(0, 6); // Limiting to a max of 6 images
-      }
-  
-      // Save the updated product
-      await product.save();
-  
-      return res.status(200).json({ success: true, product });
-    } catch (error) {
-      console.log("Edit Product Error:", error);
-      return res.status(500).json({ success: false, message: "Failed to update product." });
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
     }
-  };
-  
-  
+
+    // Update basic details
+    product.name = req.body.name || product.name;
+    product.brand = req.body.brand || product.brand;
+    product.description = req.body.description || product.description;
+    product.category = req.body.category || product.category;
+
+    const variantCategories = [
+      "mobile",
+      "laptop",
+      "macbook",
+      "ipad",
+      "tablet",
+      "watch",
+    ];
+
+    // Handle variants for specific categories
+    if (variantCategories.includes(product.category)) {
+      if (req.body.variants) {
+        try {
+          const parsedVariants = JSON.parse(req.body.variants);
+
+          // Ensure each variant has the required fields
+          const validVariants = parsedVariants.map((variant) => ({
+            storage: variant.storage || "",
+            color: variant.color || "",
+            price: Number(variant.price) || 0,
+            stock: Number(variant.stock) || 0,
+          }));
+
+          product.variants = validVariants;
+        } catch (error) {
+          console.error("Error parsing variants:", error);
+          return res
+            .status(400)
+            .json({ success: false, message: "Invalid variants data" });
+        }
+      }
+    } else {
+      product.price = req.body.price || product.price;
+      product.stock = req.body.stock || product.stock;
+    }
+
+    // Handle specifications
+    if (req.body.specifications) {
+      product.specifications = JSON.parse(req.body.specifications);
+    }
+
+    // Handle existing images
+    if (req.body.existingImages) {
+      const existingImages = JSON.parse(req.body.existingImages);
+      product.images = existingImages;
+    }
+
+    // Handle new image uploads
+    if (req.files && req.files.length > 0) {
+      const uploadedImages = await Promise.all(
+        req.files.map(async (file) => {
+          const upload = await uploadToCloudinary(file.path);
+          fs.unlinkSync(file.path); // remove local file after upload
+          return upload;
+        })
+      );
+
+      // Append new images to existing images if needed
+      product.images = [...product.images, ...uploadedImages].slice(0, 6); // Limiting to a max of 6 images
+    }
+
+    // Save the updated product
+    await product.save();
+
+    return res.status(200).json({ success: true, product });
+  } catch (error) {
+    console.log("Edit Product Error:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to update product." });
+  }
+};
+
 export const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const product = await Product.findById(id);
-    if (!product) return res.status(404).json({ success: false, message: "Product not found" });
+    if (!product)
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
 
     // Delete images from Cloudinary
     await Promise.all(
@@ -185,19 +198,70 @@ export const getProductsByCategory = async (req, res) => {
   }
 };
 
-export const getSingleProduct = async (req, res) => {
-    try {
-      const { id } = req.params;
+export const getAppleProducts = async (req, res) => {
+  try {
+    const appleProducts = await Product.find({ brand: "Apple" })
+      .sort({ createdAt: -1 })
+      .limit(10);
 
-      
-      
-      const product = await Product.findById(id);
-      if (!product) {
-        return res.status(404).json({ success: false, message: 'Product not found' });
-      }
-      res.status(200).json({ success: true, product });
-    } catch (err) {
-      console.error('Get Single Product Error:', err);
-      res.status(500).json({ success: false, message: 'Server Error' });
+    res.status(200).json({ success: true, appleProducts });
+  } catch (err) {
+    console.error("Get By Category Error:", err);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+export const getSamsungProducts = async (req, res) => {
+  try {
+    const samsungProducts = await Product.find({ brand: "Samsung" })
+      .sort({ createdAt: -1 })
+      .limit(10);
+
+    res.status(200).json({ success: true, samsungProducts });
+  } catch (err) {
+    console.error("Get By Category Error:", err);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+export const getAccessories = async (req, res) => {
+  try {
+    const accessories = await Product.find({ category: "accessory" })
+      .sort({ createdAt: -1 })
+      .limit(10);
+
+    res.status(200).json({ success: true, accessories });
+  } catch (err) {
+    console.error("Get By Category Error:", err);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+export const getIpadsOrTablets = async (req, res) => {
+  try {
+    const ipadOrTablets = await Product.find({ category: { $in: ["ipad", "tablet"] } })
+  .sort({ createdAt: -1 })
+  .limit(10);
+
+    res.status(200).json({ success: true, ipadOrTablets });
+  } catch (err) {
+    console.error("Get By Category Error:", err);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+export const getSingleProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const product = await Product.findById(id);
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
     }
-  };
+    res.status(200).json({ success: true, product });
+  } catch (err) {
+    console.error("Get Single Product Error:", err);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};

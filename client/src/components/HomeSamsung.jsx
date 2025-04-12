@@ -1,29 +1,37 @@
-import React from "react";
-import { useParams, Link } from "react-router-dom";
+import React from 'react'
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { fetchProductsByCategory } from "../redux/slices/productSlice";
+import {  Link } from 'react-router-dom';
+import {  fetchSamsungProducts } from '../redux/slices/productSlice';
 
-const Products = () => {
-  const { category } = useParams();
-  const dispatch = useDispatch();
-  const { products, loading, error } = useSelector((state) => state.products);
+const HomeSamsung = () => {
+    const dispatch = useDispatch()
+    const {samsungProducts, loading, error} = useSelector(state => state.products);
 
-  useEffect(() => {
-    dispatch(fetchProductsByCategory(category));
-  }, [dispatch, category]);
+    useEffect(()=>{
+        dispatch(fetchSamsungProducts())
+    },[dispatch])
+    if (loading) {
+        return <p>Loading...</p>;
+      }
+    
+      if (error) {
+        return <p>Error: {error}</p>;
+      }
+    
+   
+    
+    
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
-
-  return (
-    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 px-2 md:px-6 lg:px-10 py-8 gap-2  sm:gap-4">
-      {products.map((item, index) => (
+  return samsungProducts && (
+    <div className=''>
+      {/* Title Text */}
+      <div>
+        <h1 className="w-fit text-2xl  md:text-4xl font-bold bg-gradient-to-r from-blue-200 to-blue-400 bg-clip-text text-transparent">Power Up with Samsung Tech</h1>
+      </div>
+      {/* Show Products */}
+      <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-5 px-2 md:px-6 lg:px-10 py-8 gap-2 sm:gap-4">
+      {samsungProducts.map((item, index) => (
         <Link 
         to={`/product/${item._id}`}
           key={index}
@@ -47,7 +55,8 @@ const Products = () => {
         </Link>
       ))}
     </div>
-  );
-};
+    </div>
+  )
+}
 
-export default Products;
+export default HomeSamsung
