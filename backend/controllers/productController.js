@@ -202,9 +202,47 @@ export const getAppleProducts = async (req, res) => {
   try {
     const appleProducts = await Product.find({ brand: "Apple" })
       .sort({ createdAt: -1 })
-      .limit(5);
+      .limit(10);
 
     res.status(200).json({ success: true, appleProducts });
+  } catch (err) {
+    console.error("Get By Category Error:", err);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+export const getSamsungProducts = async (req, res) => {
+  try {
+    const samsungProducts = await Product.find({ brand: "Samsung" })
+      .sort({ createdAt: -1 })
+      .limit(10);
+
+    res.status(200).json({ success: true, samsungProducts });
+  } catch (err) {
+    console.error("Get By Category Error:", err);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+export const getAccessories = async (req, res) => {
+  try {
+    const accessories = await Product.find({ category: "accessory" })
+      .sort({ createdAt: -1 })
+      .limit(10);
+
+    res.status(200).json({ success: true, accessories });
+  } catch (err) {
+    console.error("Get By Category Error:", err);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+export const getIpadsOrTablets = async (req, res) => {
+  try {
+    const ipadOrTablets = await Product.find({ category: { $in: ["ipad", "tablet"] } })
+  .sort({ createdAt: -1 })
+  .limit(10);
+
+    res.status(200).json({ success: true, ipadOrTablets });
   } catch (err) {
     console.error("Get By Category Error:", err);
     res.status(500).json({ success: false, message: "Server Error" });

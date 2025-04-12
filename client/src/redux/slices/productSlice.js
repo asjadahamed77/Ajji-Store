@@ -8,6 +8,9 @@ const initialState = {
   selectedProduct: null,
   singleProduct: null,
   appleProducts: [],
+  samsungProducts: [],
+  accessories: [],
+  tabs: [],
   loading: false,
   error: null,
 };
@@ -57,6 +60,55 @@ export const fetchAppleProducts = createAsyncThunk(
       const { data } = await axios.get(`${backendUrl}/api/product/brand/apple`);
 
       return data.appleProducts;
+    } catch (error) {
+      toast.error("Failed to load products by category");
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+// Get Samsung Products
+export const fetchSamsungProducts = createAsyncThunk(
+  "products/fetchSamsungProducts",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(
+        `${backendUrl}/api/product/brand/samsung`
+      );
+
+      return data.samsungProducts;
+    } catch (error) {
+      toast.error("Failed to load products by category");
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+// Get Accessory Products
+export const fetchAccessories = createAsyncThunk(
+  "products/fetchAccessories",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(
+        `${backendUrl}/api/product/category/accessory`
+      );
+      return data.accessories;
+    } catch (error) {
+      toast.error("Failed to load products by category");
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+// Get Accessory Products
+export const fetchTablets = createAsyncThunk(
+  "products/fetchTablets",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(
+        `${backendUrl}/api/product/category/tab`
+      );
+      return data.ipadOrTablets;
     } catch (error) {
       toast.error("Failed to load products by category");
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -117,7 +169,55 @@ const productSlice = createSlice({
         state.error = action.payload;
         state.appleProducts = null;
         toast.error(action.payload || "Failed to fetch product");
-      });
+      })
+      // Samsung Products
+      .addCase(fetchSamsungProducts.pending, (state) => {
+        state.loading = [];
+        state.error = null;
+        state.samsungProducts = null;
+      })
+      .addCase(fetchSamsungProducts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.samsungProducts = action.payload;
+      })
+      .addCase(fetchSamsungProducts.rejected, (state, action) => {
+        state.loading = [];
+        state.error = action.payload;
+        state.samsungProducts = null;
+        toast.error(action.payload || "Failed to fetch product");
+      })
+       // Accessory Products
+       .addCase(fetchAccessories.pending, (state) => {
+        state.loading = [];
+        state.error = null;
+        state.accessories = null;
+      })
+      .addCase(fetchAccessories.fulfilled, (state, action) => {
+        state.loading = false;
+        state.accessories = action.payload;
+      })
+      .addCase(fetchAccessories.rejected, (state, action) => {
+        state.loading = [];
+        state.error = action.payload;
+        state.accessories = null;
+        toast.error(action.payload || "Failed to fetch product");
+      })
+       // Fetch Products
+       .addCase(fetchTablets.pending, (state) => {
+        state.loading = [];
+        state.error = null;
+        state.tabs = null;
+      })
+      .addCase(fetchTablets.fulfilled, (state, action) => {
+        state.loading = false;
+        state.tabs = action.payload;
+      })
+      .addCase(fetchTablets.rejected, (state, action) => {
+        state.loading = [];
+        state.error = action.payload;
+        state.tabs = null;
+        toast.error(action.payload || "Failed to fetch product");
+      })
   },
 });
 

@@ -1,15 +1,15 @@
 import React from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from 'react-router-dom';
-import { fetchAppleProducts } from '../redux/slices/productSlice';
+import {  Link } from 'react-router-dom';
+import {  fetchAccessories } from '../redux/slices/productSlice';
 
-const HomeApple = () => {
+const HomeAccessories = () => {
     const dispatch = useDispatch()
-    const {appleProducts, loading, error} = useSelector(state => state.products);
+    const {accessories, loading, error} = useSelector(state => state.products);
 
     useEffect(()=>{
-        dispatch(fetchAppleProducts())
+        dispatch(fetchAccessories())
     },[dispatch])
     if (loading) {
         return <p>Loading...</p>;
@@ -23,15 +23,15 @@ const HomeApple = () => {
     
     
 
-  return appleProducts && (
+  return accessories && (
     <div className=''>
       {/* Title Text */}
       <div>
-        <h1 className="w-fit text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-200 to-blue-400 bg-clip-text text-transparent">The Best of Apple, All in One Place</h1>
+        <h1 className="w-fit text-2xl  md:text-4xl font-bold bg-gradient-to-r from-blue-200 to-blue-400 bg-clip-text text-transparent">Gear Up with the Latest Accessories</h1>
       </div>
       {/* Show Products */}
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 px-2 md:px-6 lg:px-10 py-8 gap-2 sm:gap-4">
-      {appleProducts.map((item, index) => (
+      <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-5 px-2 md:px-6 lg:px-10 py-8 gap-2 sm:gap-4">
+      {accessories.map((item, index) => (
         <Link 
         to={`/product/${item._id}`}
           key={index}
@@ -59,4 +59,9 @@ const HomeApple = () => {
   )
 }
 
-export default HomeApple
+export default HomeAccessories
+
+
+
+
+
