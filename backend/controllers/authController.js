@@ -90,8 +90,8 @@ export const registerUser = async (req, res) => {
 // VERIFY - Save user to DB
 export const verifyEmail = async (req, res) => {
   const { otp, id } = req.body;
-
-
+  console.log(id);
+  
   if (!id || !otp) {
     try {
       const user = await userModel.findById(id);

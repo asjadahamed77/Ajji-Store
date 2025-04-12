@@ -43,9 +43,14 @@ export const verifyEmail = createAsyncThunk(
   "auth/verifyEmail",
   async ({ otp }, { rejectWithValue }) => {
     try {
+      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      if (!userInfo || !userInfo._id) {
+        return rejectWithValue("User information not found. Please register again.");
+      }
+
       const { data } = await axios.post(
         `${backendUrl}/api/auth/verify-email`,
-        { otp },
+        { otp, id: userInfo._id },
         {
           withCredentials: true,
           headers: { 'Content-Type': 'application/json' },
@@ -54,12 +59,16 @@ export const verifyEmail = createAsyncThunk(
 
       if (data.success) {
         localStorage.setItem("userInfo", JSON.stringify(data.user));
+        toast.success(data.message);
         return { data, user: data.user, message: data.message };
       } else {
+        toast.error(data.message);
         return rejectWithValue(data.message);
       }
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Verification failed");
+      const errorMessage = error.response?.data?.message || "Verification failed";
+      toast.error(errorMessage);
+      return rejectWithValue(errorMessage);
     }
   }
 );
@@ -76,11 +85,14 @@ export const login = createAsyncThunk(
       if (data.success) {
         localStorage.setItem("userInfo", JSON.stringify(data.user));
         localStorage.setItem("userToken", data.token);
+        toast.success(data.message);
         return data;
       } else {
+        toast.error(data.message);
         return rejectWithValue(data.message);
       }
     } catch (error) {
+      toast.error(error.message);
       return rejectWithValue(error.response?.data?.message || "Login failed");
     }
   }
@@ -92,8 +104,11 @@ export const logout = createAsyncThunk("auth/logout", async (_, { rejectWithValu
     await axios.post(`${backendUrl}/api/auth/logout`, {}, { withCredentials: true });
     localStorage.removeItem("userInfo");
     localStorage.removeItem("userToken");
+    toast.success("Logged out successfully");
     return true;
   } catch (error) {
+    console.error("Logout error:", error);
+    toast.error("Logout failed");
     return rejectWithValue("Logout failed");
   }
 });

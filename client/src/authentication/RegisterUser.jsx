@@ -3,6 +3,7 @@ import logo from '../assets/logo/AjjiStore.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { register, verifyEmail } from '../redux/slices/authSlice';
+import { toast } from 'react-hot-toast';
 
 const RegisterUser = () => {
   const dispatch = useDispatch();
@@ -84,13 +85,13 @@ const RegisterUser = () => {
     const finalOtp = otp.join('');
     if (finalOtp.length !== 6) return alert("Please enter 6-digit OTP");
 
-    const result = await dispatch(verifyEmail({  otp: finalOtp }));
+    const result = await dispatch(verifyEmail({ otp: finalOtp }));
     if (verifyEmail.fulfilled.match(result)) {
-     
       setShowOtpPopup(false);
       navigate('/');
     } else {
-      navigate('/login')
+      toast.error("Verification failed. Your account has been removed. Please register again.");
+      navigate('/login');
     }
   };
 
