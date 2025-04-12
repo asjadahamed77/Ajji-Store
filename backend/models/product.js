@@ -27,6 +27,7 @@ const productSchema = new mongoose.Schema({
   brand: {
     type: String,
     required: true,
+    enum: ["Ambrane", "Anker", "Apple", "Asus", "Belkin", "boAt", "Boult Audio", "ESR", "Fire-Boltt", "Generic", "Google Pixel", "Infinix", "iQOO", "JBL", "Lenovo", "Mi", "Motorola", "Noise", "Nokia", "OnePlus", "OPPO", "Portronics", "Realme", "Ringke", "Samsung", "Sony", "Sony Xperia", "Spigen", "Tecno", "vivo", "Xiaomi"]
   },
   category: {
     type: String,
