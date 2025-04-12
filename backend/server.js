@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser'
 import router from './routes/userRoutes.js'
 import adminRouter from './routes/adminRoutes.js'
 import adminProductRouter from './routes/adminProductRoutes.js'
+import productRouter from './routes/productRoutes.js'
 
 
 
@@ -33,6 +34,7 @@ app.use('/api/auth',authRouter)
 app.use('/api/user', router)
 app.use('/api/admin', adminRouter)
 app.use('/api/admin/product', adminProductRouter)
+app.use('/api/product', productRouter)
 
 
 app.get('/',(req,res)=>{

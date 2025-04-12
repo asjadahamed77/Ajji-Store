@@ -8,6 +8,9 @@ import { Toaster } from "react-hot-toast";
 import Login from "./authentication/Login";
 import UserProfile from "./components/UserProfile";
 import { useState } from "react";
+import Search from "./components/Search";
+import Products from "./pages/Products";
+import ProductDisplay from "./pages/ProductDisplay";
 
 function App() {
   const location = useLocation();
@@ -35,12 +38,15 @@ function App() {
         />
         {!isAuthPage && <TopBar />}
         {!isAuthPage && <Navbar setShowUserProfile={setShowUserProfile} />}
+        {!isAuthPage && <Search  />}
        {
         showUserProfile &&  <UserProfile showUserProfile={showUserProfile} setShowUserProfile={setShowUserProfile}  />
        }
         <Routes>
           <Route path="register-user" element={<RegisterUser />} />
           <Route path="login" element={<Login />} />
+          <Route path="products/:category" element={<Products />} />
+          <Route path="product/:id" element={<ProductDisplay />} />
         </Routes>
       </Provider>
     </>

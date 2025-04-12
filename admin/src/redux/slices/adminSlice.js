@@ -3,8 +3,6 @@ import axios from "axios";
 import { backendUrl } from "../../api/api";
 import toast from "react-hot-toast";
 
-
-
 const initialState = {
   admin: null,
   loading: false,
@@ -19,10 +17,14 @@ export const login = createAsyncThunk(
   "admin/login",
   async (formData, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${backendUrl}/api/admin/login`, formData, {
-        withCredentials: true,
-        headers: { "Content-Type": "application/json" },
-      });
+      const { data } = await axios.post(
+        `${backendUrl}/api/admin/login`,
+        formData,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       if (data.success) {
         localStorage.setItem("adminToken", data.admintoken);
@@ -41,13 +43,17 @@ export const addProduct = createAsyncThunk(
   "admin/addProduct",
   async (formData, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${backendUrl}/api/admin/product/add`, formData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-        },
-      });
+      const { data } = await axios.post(
+        `${backendUrl}/api/admin/product/add`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
+        }
+      );
 
       if (data.success) {
         return data;
@@ -55,7 +61,9 @@ export const addProduct = createAsyncThunk(
         return rejectWithValue(data.message);
       }
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to add product.");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to add product."
+      );
     }
   }
 );
@@ -79,7 +87,9 @@ export const viewProduct = createAsyncThunk(
         return rejectWithValue(data.message);
       }
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to view product.");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to view product."
+      );
     }
   }
 );
@@ -88,20 +98,25 @@ export const deleteProduct = createAsyncThunk(
   "admin/deleteProduct",
   async (productId, { rejectWithValue }) => {
     try {
-      const { data } = await axios.delete(`${backendUrl}/api/admin/product/${productId}`, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-        },
-      });
+      const { data } = await axios.delete(
+        `${backendUrl}/api/admin/product/${productId}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
+        }
+      );
 
       if (data.success) {
-        return { id: productId }; 
+        return { id: productId };
       } else {
         return rejectWithValue(data.message);
       }
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to delete product.");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to delete product."
+      );
     }
   }
 );
@@ -111,12 +126,15 @@ export const getSingleProduct = createAsyncThunk(
   "admin/getSingleProduct",
   async (productId, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${backendUrl}/api/admin/product/${productId}`, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-        },
-      });
+      const { data } = await axios.get(
+        `${backendUrl}/api/admin/product/${productId}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
+        }
+      );
 
       if (data.success) {
         return data.product;
@@ -124,7 +142,9 @@ export const getSingleProduct = createAsyncThunk(
         return rejectWithValue(data.message);
       }
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to fetch product.");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch product."
+      );
     }
   }
 );
@@ -133,13 +153,17 @@ export const updateProduct = createAsyncThunk(
   "admin/updateProduct",
   async ({ productId, formData }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.put(`${backendUrl}/api/admin/product/${productId}`, formData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-        },
-      });
+      const { data } = await axios.put(
+        `${backendUrl}/api/admin/product/${productId}`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
+        }
+      );
 
       if (data.success) {
         return data.product;
@@ -147,13 +171,12 @@ export const updateProduct = createAsyncThunk(
         return rejectWithValue(data.message);
       }
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to update product.");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to update product."
+      );
     }
   }
 );
-
-
-
 
 const adminSlice = createSlice({
   name: "admin",
@@ -199,10 +222,9 @@ const adminSlice = createSlice({
       })
       .addCase(addProduct.fulfilled, (state, action) => {
         state.loading = false;
-        state.products.push(action.payload.product); 
+        state.products.push(action.payload.product);
         state.successMessage = "Product Added";
         toast.success("Product added successfully");
-        
       })
       .addCase(addProduct.rejected, (state, action) => {
         state.loading = false;
@@ -217,7 +239,7 @@ const adminSlice = createSlice({
       })
       .addCase(viewProduct.fulfilled, (state, action) => {
         state.loading = false;
-        state.products = action.payload.products; 
+        state.products = action.payload.products;
         state.successMessage = "Products fetched successfully";
       })
       .addCase(viewProduct.rejected, (state, action) => {
@@ -225,62 +247,62 @@ const adminSlice = createSlice({
         state.error = action.payload;
         toast.error(action.payload);
       })
-         // DELETE PRODUCT
-         .addCase(deleteProduct.pending, (state) => {
-          state.loading = true;
-          state.error = null;
-        })
-        .addCase(deleteProduct.fulfilled, (state, action) => {
-          state.loading = false;
-          state.products = state.products.filter(product => product._id !== action.payload.id);
-          toast.success("Product deleted successfully");
-        })
-        .addCase(deleteProduct.rejected, (state, action) => {
-          state.loading = false;
-          state.error = action.payload;
-          toast.error(action.payload);
-        })
-        // GET SINGLE PRODUCT
-.addCase(getSingleProduct.pending, (state) => {
-  state.loading = true;
-  state.error = null;
-  state.singleProduct = null;
-})
-.addCase(getSingleProduct.fulfilled, (state, action) => {
-  state.loading = false;
-  state.singleProduct = action.payload;
-  state.successMessage = "Product fetched successfully";
-})
-.addCase(getSingleProduct.rejected, (state, action) => {
-  state.loading = false;
-  state.error = action.payload;
-  state.singleProduct = null;
-  toast.error(action.payload || "Failed to fetch product");
-})
+      // DELETE PRODUCT
+      .addCase(deleteProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products = state.products.filter(
+          (product) => product._id !== action.payload.id
+        );
+        toast.success("Product deleted successfully");
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        toast.error(action.payload);
+      })
+      // GET SINGLE PRODUCT
+      .addCase(getSingleProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.singleProduct = null;
+      })
+      .addCase(getSingleProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.singleProduct = action.payload;
+        state.successMessage = "Product fetched successfully";
+      })
+      .addCase(getSingleProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.singleProduct = null;
+        toast.error(action.payload || "Failed to fetch product");
+      })
 
-// UPDATE PRODUCT
-.addCase(updateProduct.pending, (state) => {
-  state.loading = true;
-  state.error = null;
-  state.successMessage = null;
-})
-.addCase(updateProduct.fulfilled, (state, action) => {
-  state.loading = false;
-  const updated = action.payload;
-  state.products = state.products.map((product) =>
-    product._id === updated._id ? updated : product
-  );
-  state.singleProduct = updated;
-  state.successMessage = "Product updated successfully";
-  toast.success("Product updated");
-})
-.addCase(updateProduct.rejected, (state, action) => {
-  state.loading = false;
-  state.error = action.payload;
-  toast.error(action.payload || "Failed to update product");
-});
-
-
+      // UPDATE PRODUCT
+      .addCase(updateProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.successMessage = null;
+      })
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        const updated = action.payload;
+        state.products = state.products.map((product) =>
+          product._id === updated._id ? updated : product
+        );
+        state.singleProduct = updated;
+        state.successMessage = "Product updated successfully";
+        toast.success("Product updated");
+      })
+      .addCase(updateProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        toast.error(action.payload || "Failed to update product");
+      });
   },
 });
 

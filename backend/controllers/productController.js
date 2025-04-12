@@ -76,16 +76,14 @@ export const editProduct = async (req, res) => {
   
       const variantCategories = ["mobile", "laptop", "macbook", "ipad", "tablet", "watch"];
   
-      console.log("Category:", product.category);
-      console.log("Is variant category:", variantCategories.includes(product.category));
-      console.log("Variants from request:", req.body.variants);
+    
   
       // Handle variants for specific categories
       if (variantCategories.includes(product.category)) {
         if (req.body.variants) {
           try {
             const parsedVariants = JSON.parse(req.body.variants);
-            console.log("Parsed variants:", parsedVariants);
+           
             
             // Ensure each variant has the required fields
             const validVariants = parsedVariants.map(variant => ({
@@ -96,7 +94,7 @@ export const editProduct = async (req, res) => {
             }));
             
             product.variants = validVariants;
-            console.log("Updated product variants:", product.variants);
+      
           } catch (error) {
             console.error("Error parsing variants:", error);
             return res.status(400).json({ success: false, message: "Invalid variants data" });
@@ -168,7 +166,7 @@ export const deleteProduct = async (req, res) => {
 
 export const getProducts = async (req, res) => {
   try {
-    const products = await Product.find().sort({ createdAt: -1 });
+    const products = await Product.find({}).sort({ createdAt: -1 });
     res.status(200).json({ success: true, products });
   } catch (err) {
     console.error("Get Products Error:", err);
@@ -191,6 +189,7 @@ export const getSingleProduct = async (req, res) => {
     try {
       const { id } = req.params;
 
+      
       
       const product = await Product.findById(id);
       if (!product) {

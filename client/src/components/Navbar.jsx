@@ -20,14 +20,14 @@ const Navbar = ({setShowUserProfile}) => {
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Mobiles', path: '/mobiles' },
-    { name: 'MacBooks', path: '/macbooks' },
-    { name: 'Laptops', path: '/laptops' },
-    { name: 'iPads', path: '/ipads' },
-    { name: 'tablets', path: '/tablets' },
-    { name: 'AirPods', path: '/airpods' },
-    { name: 'Watches', path: '/watches' },
-    { name: 'Accessories', path: '/accessories' },
+    { name: 'Mobiles', path: '/products/mobile' },
+    { name: 'MacBooks', path: '/products/macbook' },
+    { name: 'Laptops', path: 'products/laptop' },
+    { name: 'iPads', path: 'products/ipad' },
+    { name: 'tablets', path: 'products/tablet' },
+    { name: 'AirPods', path: 'products/airpod' },
+    { name: 'Watches', path: 'products/watch' },
+    { name: 'Accessories', path: 'products/accessory' },
   ];
 
   return (
