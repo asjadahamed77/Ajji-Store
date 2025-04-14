@@ -3,6 +3,7 @@ import HomeApple from './HomeApple'
 import HomeSamsung from './HomeSamsung'
 import HomeAccessories from './HomeAccessories'
 import HomeTablets from './HomeTablets'
+import OurValues from './OurValues'
 
 const HomeCategories = () => {
   return (
@@ -11,6 +12,7 @@ const HomeCategories = () => {
       <HomeSamsung />
       <HomeTablets />
       <HomeAccessories />
+      <OurValues />
     </div>
   )
 }

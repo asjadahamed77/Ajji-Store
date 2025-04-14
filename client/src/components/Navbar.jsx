@@ -66,7 +66,7 @@ const Navbar = ({setShowUserProfile}) => {
         {
             user? (
                <>
-                <div className="text-xl hover:opacity-80 transition-all duration-300 cursor-pointer">
+                <div onClick={()=> navigate('/cart')} className="text-xl hover:opacity-80 transition-all duration-300 cursor-pointer">
           <IoMdCart />
         </div>
         <div onClick={()=>setShowUserProfile(true)} className="text-lg hover:opacity-80 transition-all duration-300 cursor-pointer">
