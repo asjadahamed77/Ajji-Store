@@ -8,11 +8,11 @@ import { Toaster } from "react-hot-toast";
 import Login from "./authentication/Login";
 import UserProfile from "./components/UserProfile";
 import { useState } from "react";
-import Search from "./components/Search";
 import Products from "./pages/Products";
 import ProductDisplay from "./pages/ProductDisplay";
 import Home from "./pages/Home";
 import CartPage from "./pages/CartPage";
+import Checkout from "./pages/Checkout";
 
 function App() {
   const location = useLocation();
@@ -40,7 +40,7 @@ function App() {
         />
         {!isAuthPage && <TopBar />}
         {!isAuthPage && <Navbar setShowUserProfile={setShowUserProfile} />}
-        {!isAuthPage && <Search  />}
+   
        {
         showUserProfile &&  <UserProfile showUserProfile={showUserProfile} setShowUserProfile={setShowUserProfile}  />
        }
@@ -51,6 +51,7 @@ function App() {
           <Route path="products/:category" element={<Products />} />
           <Route path="product/:id" element={<ProductDisplay />} />
           <Route path="cart" element={<CartPage />} />
+          <Route path="checkout" element={<Checkout />} />
         </Routes>
       </Provider>
     </>

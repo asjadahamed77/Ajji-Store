@@ -92,7 +92,6 @@ const ProductDisplay = () => {
 
     dispatch(addToCart(cartData)).then((res) => {
       if (res.meta.requestStatus === "fulfilled") {
-        toast.success("Added to cart!");
         navigate('/cart')
       }
     });

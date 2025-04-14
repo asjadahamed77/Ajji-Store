@@ -8,9 +8,11 @@ import {
 } from "../redux/slices/cartSlice";
 import { MdDeleteSweep } from "react-icons/md";
 import toast from "react-hot-toast";
+import {useNavigate} from "react-router-dom"
 
 const CartPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const { cart, loading, error } = useSelector((state) => state.cart);
 
   useEffect(() => {
@@ -63,7 +65,7 @@ const CartPage = () => {
   return (
     <div className="min-h-screen  py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-blue-200 mb-8">Shopping Cart</h1>
+        <h1 className="w-fit text-2xl md:text-4xl font-bold bg-gradient-to-r mb-4 from-blue-200 to-blue-400 bg-clip-text text-transparent">Shopping Cart</h1>
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Cart Items */}
           <div className="flex-1  space-y-4">
@@ -166,7 +168,7 @@ const CartPage = () => {
                   <span>Rs.{cart.totalPrice}</span>
                 </div>
               </div>
-              <button className="w-full px-12 py-2 rounded border mt-4 font-semibold cursor-pointer hover:bg-white hover:text-blue-950 duration-300 transition-all">
+              <button onClick={()=> navigate('/checkout')} className="w-full px-12 py-2 rounded border mt-4 font-semibold cursor-pointer hover:bg-white hover:text-blue-950 duration-300 transition-all">
                 Proceed to Checkout
               </button>
             </div>
