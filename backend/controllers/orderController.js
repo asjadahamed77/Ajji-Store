@@ -94,9 +94,12 @@ export const createOrder = async (req, res) => {
     cart.totalPrice = 0;
     await cart.save();
 
+    // Populate user information before sending response
+    const populatedOrder = await Order.findById(order._id).populate('user', 'name email phone address');
+
     res.status(201).json({ 
       success: true, 
-      order,
+      order: populatedOrder,
       message: "Order placed successfully" 
     });
   } catch (error) {
@@ -136,7 +139,8 @@ export const getUserOrders = async (req, res) => {
 
   try {
     const orders = await Order.find({ user: userId })
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .populate('user', 'name email phone address');
 
     res.status(200).json({ success: true, orders });
   } catch (error) {

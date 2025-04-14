@@ -14,6 +14,7 @@ const Checkout = () => {
     const { loading, error: orderError } = useSelector((state) => state.order);
 
     const [formData, setFormData] = useState({
+        name: user?.name || '',
         street: '',
         city: '',
         zipCode: '',
@@ -26,6 +27,7 @@ const Checkout = () => {
     useEffect(() => {
         if (user?.address) {
             setFormData({
+                name: user.name || '',
                 street: user.address.addressLine || '',
                 city: user.address.city || '',
                 zipCode: user.address.postalCode || '',
@@ -43,7 +45,7 @@ const Checkout = () => {
     };
 
     const handlePaymentSuccess = async (paypalOrder) => {
-        if (!formData.street || !formData.city || !formData.zipCode || !formData.country) {
+        if (!formData.name || !formData.street || !formData.city || !formData.zipCode || !formData.country) {
             toast.error("Please fill in all shipping information");
             return;
         }
@@ -60,6 +62,7 @@ const Checkout = () => {
             // Create order data
             const orderData = {
                 shippingAddress: {
+                    name: formData.name,
                     address: formData.street,
                     city: formData.city,
                     postalCode: formData.zipCode,
@@ -144,6 +147,17 @@ const Checkout = () => {
                         <div className='bg-white/5 p-6 rounded-lg shadow-lg'>
                             <h2 className='text-xl font-semibold text-blue-200 mb-6'>Shipping Information</h2>
                             <div className='space-y-4'>
+                                <div>
+                                    <label className='block text-blue-300 mb-2'>Full Name</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleInputChange}
+                                        className='w-full p-2 bg-white/10 border rounded text-blue-200 focus:outline-none focus:border-blue-400 border-blue-300/30'
+                                        required
+                                    />
+                                </div>
                                 <div>
                                     <label className='block text-blue-300 mb-2'>Street Address</label>
                                     <input
