@@ -4,12 +4,14 @@ import { useParams } from "react-router-dom";
 import { getSingleProduct } from '../redux/slices/productSlice';
 import { addToCart } from "../redux/slices/cartSlice";
 import toast from "react-hot-toast";
+import  { useNavigate } from "react-router-dom"
 
 const ProductDisplay = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const navigate = useNavigate();
   const { singleProduct, loading, error } = useSelector((state) => state.products);
-  const userId = useSelector((state) => state.auth?.user?._id); // optional
+  const userId = useSelector((state) => state.auth?.user?._id);
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [zoomStyle, setZoomStyle] = useState({});
@@ -91,6 +93,7 @@ const ProductDisplay = () => {
     dispatch(addToCart(cartData)).then((res) => {
       if (res.meta.requestStatus === "fulfilled") {
         toast.success("Added to cart!");
+        navigate('/cart')
       }
     });
   };

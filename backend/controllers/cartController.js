@@ -163,14 +163,13 @@ export const removeFromCart = async (req, res) => {
       return res.status(404).json({ success: false, message: "Product not found in cart" });
     }
 
-    // Calculate the price to subtract
-    const itemPrice = cart.products[itemIndex].price * cart.products[itemIndex].quantity;
-    
     // Remove the item
     cart.products.splice(itemIndex, 1);
     
-    // Update total price
-    cart.totalPrice -= itemPrice;
+    // Recalculate total price
+    cart.totalPrice = cart.products.reduce((total, item) => {
+      return total + (item.price * item.quantity);
+    }, 0);
     
     await cart.save();
 

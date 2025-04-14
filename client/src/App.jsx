@@ -12,6 +12,7 @@ import Search from "./components/Search";
 import Products from "./pages/Products";
 import ProductDisplay from "./pages/ProductDisplay";
 import Home from "./pages/Home";
+import CartPage from "./pages/CartPage";
 
 function App() {
   const location = useLocation();
@@ -49,6 +50,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="products/:category" element={<Products />} />
           <Route path="product/:id" element={<ProductDisplay />} />
+          <Route path="cart" element={<CartPage />} />
         </Routes>
       </Provider>
     </>

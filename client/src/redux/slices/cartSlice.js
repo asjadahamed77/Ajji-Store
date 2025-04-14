@@ -56,6 +56,8 @@ export const getCart = createAsyncThunk(
       const { data } = await axios.get(`${backendUrl}/api/cart`, {
         withCredentials: true,
       });
+
+      
       return data;
     } catch (error) {
       return rejectWithValue(
