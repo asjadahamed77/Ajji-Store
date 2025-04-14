@@ -29,7 +29,7 @@ const cartItemSchema = new mongoose.Schema(
     },
     color: {
       type: String,
-      required: [true, "Product color is required."],
+      required: false,
     },
     quantity: {
       type: Number,
@@ -62,6 +62,6 @@ const cartSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const cartModel = mongoose.models.cart || mongoose.model("Cart", cartSchema);
+const Cart = mongoose.models.Cart || mongoose.model("Cart", cartSchema);
 
-export default cartModel;
+export default Cart;
