@@ -3,6 +3,14 @@ import axios from "axios";
 import { backendUrl } from "../../api/api";
 import toast from "react-hot-toast";
 
+// Initial state
+const initialState = {
+  orders: [],
+  currentOrder: null,
+  loading: false,
+  error: null,
+};
+
 // Create order
 export const createOrder = createAsyncThunk(
   "order/createOrder",
@@ -11,14 +19,12 @@ export const createOrder = createAsyncThunk(
       const { data } = await axios.post(
         `${backendUrl}/api/orders`,
         orderData,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
       return data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to create order"
+        error.response?.data?.message || "Failed to create order."
       );
     }
   }
@@ -31,34 +37,30 @@ export const getOrderById = createAsyncThunk(
     try {
       const { data } = await axios.get(
         `${backendUrl}/api/orders/${orderId}`,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
       return data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch order"
+        error.response?.data?.message || "Failed to fetch order."
       );
     }
   }
 );
 
-// Get user orders
+// Get user's orders
 export const getUserOrders = createAsyncThunk(
   "order/getUserOrders",
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(
-        `${backendUrl}/api/orders/myorders`,
-        {
-          withCredentials: true,
-        }
+        `${backendUrl}/api/orders`,
+        { withCredentials: true }
       );
       return data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch orders"
+        error.response?.data?.message || "Failed to fetch orders."
       );
     }
   }
@@ -67,19 +69,17 @@ export const getUserOrders = createAsyncThunk(
 // Update order to paid
 export const updateOrderToPaid = createAsyncThunk(
   "order/updateOrderToPaid",
-  async ({ orderId, paymentResult }, { rejectWithValue }) => {
+  async (orderId, { rejectWithValue }) => {
     try {
       const { data } = await axios.put(
         `${backendUrl}/api/orders/${orderId}/pay`,
-        { paymentResult },
-        {
-          withCredentials: true,
-        }
+        {},
+        { withCredentials: true }
       );
       return data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to update order"
+        error.response?.data?.message || "Failed to update order payment status."
       );
     }
   }
@@ -93,37 +93,23 @@ export const updateOrderToDelivered = createAsyncThunk(
       const { data } = await axios.put(
         `${backendUrl}/api/orders/${orderId}/deliver`,
         {},
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
       return data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to update order"
+        error.response?.data?.message || "Failed to update order delivery status."
       );
     }
   }
 );
 
-const initialState = {
-  currentOrder: null,
-  orders: [],
-  loading: false,
-  error: null,
-};
-
 const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
-    clearOrder: (state) => {
+    clearCurrentOrder: (state) => {
       state.currentOrder = null;
-      state.error = null;
-    },
-    clearOrders: (state) => {
-      state.orders = [];
-      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -136,6 +122,7 @@ const orderSlice = createSlice({
       .addCase(createOrder.fulfilled, (state, action) => {
         state.loading = false;
         state.currentOrder = action.payload.order;
+        state.orders = [action.payload.order, ...state.orders];
         toast.success(action.payload.message);
       })
       .addCase(createOrder.rejected, (state, action) => {
@@ -157,7 +144,7 @@ const orderSlice = createSlice({
         state.error = action.payload;
         toast.error(action.payload);
       })
-      // Get user orders
+      // Get user's orders
       .addCase(getUserOrders.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -178,7 +165,12 @@ const orderSlice = createSlice({
       })
       .addCase(updateOrderToPaid.fulfilled, (state, action) => {
         state.loading = false;
-        state.currentOrder = action.payload.order;
+        if (state.currentOrder?._id === action.payload.order._id) {
+          state.currentOrder = action.payload.order;
+        }
+        state.orders = state.orders.map(order => 
+          order._id === action.payload.order._id ? action.payload.order : order
+        );
         toast.success(action.payload.message);
       })
       .addCase(updateOrderToPaid.rejected, (state, action) => {
@@ -193,7 +185,12 @@ const orderSlice = createSlice({
       })
       .addCase(updateOrderToDelivered.fulfilled, (state, action) => {
         state.loading = false;
-        state.currentOrder = action.payload.order;
+        if (state.currentOrder?._id === action.payload.order._id) {
+          state.currentOrder = action.payload.order;
+        }
+        state.orders = state.orders.map(order => 
+          order._id === action.payload.order._id ? action.payload.order : order
+        );
         toast.success(action.payload.message);
       })
       .addCase(updateOrderToDelivered.rejected, (state, action) => {
@@ -204,5 +201,5 @@ const orderSlice = createSlice({
   },
 });
 
-export const { clearOrder, clearOrders } = orderSlice.actions;
+export const { clearCurrentOrder } = orderSlice.actions;
 export default orderSlice.reducer; 

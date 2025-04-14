@@ -17,7 +17,7 @@ orderRouter.post("/", userAuth, createOrder);
 orderRouter.get("/:id", userAuth, getOrderById);
 
 // Get user's orders
-orderRouter.get("/myorders", userAuth, getUserOrders);
+orderRouter.get("/", userAuth, getUserOrders);
 
 // Update order to paid
 orderRouter.put("/:id/pay", userAuth, updateOrderToPaid);

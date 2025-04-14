@@ -3,14 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import PayPalButton from '../components/PayPalButton';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import axios from 'axios';
 import { clearCart } from '../redux/slices/cartSlice';
+import { createOrder } from '../redux/slices/orderSlice';
 
 const Checkout = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { user } = useSelector((state) => state.auth);
     const { cart } = useSelector((state) => state.cart);
+    const { loading, error: orderError } = useSelector((state) => state.order);
 
     const [formData, setFormData] = useState({
         street: '',
@@ -19,7 +20,6 @@ const Checkout = () => {
         country: ''
     });
 
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     // Load user's saved address if available
@@ -55,7 +55,6 @@ const Checkout = () => {
         }
 
         try {
-            setLoading(true);
             setError(null);
 
             // Create order data
@@ -75,29 +74,25 @@ const Checkout = () => {
                 }
             };
 
-            // Create order
-            const response = await axios.post(
-                `${import.meta.env.VITE_BACKEND_URL}/api/orders`,
-                orderData,
-               
-                { withCredentials: true }
-            );
-
-            if (response.data) {
+            // Create order using Redux thunk
+            const resultAction = await dispatch(createOrder(orderData));
+            
+            if (createOrder.fulfilled.match(resultAction)) {
                 // Clear cart
                 dispatch(clearCart());
                 
-                // Show success message
-                toast.success("Order placed successfully!");
+             
                 
-             navigate('/my-orders')
+                // Navigate to orders page
+                navigate('/my-orders');
+            } else {
+                setError(resultAction.payload || "Failed to place order. Please try again.");
+                toast.error(resultAction.payload || "Failed to place order. Please try again.");
             }
         } catch (err) {
             console.error("Order creation error:", err);
-            setError(err.response?.data?.message || "Failed to place order. Please try again.");
-            toast.error(err.response?.data?.message || "Failed to place order. Please try again.");
-        } finally {
-            setLoading(false);
+            setError(err.message || "Failed to place order. Please try again.");
+            toast.error(err.message || "Failed to place order. Please try again.");
         }
     };
 
@@ -137,9 +132,9 @@ const Checkout = () => {
             <div className='max-w-7xl mx-auto'>
                 <h1 className='text-3xl font-bold text-blue-200 mb-8'>Checkout</h1>
                 
-                {error && (
+                {(error || orderError) && (
                     <div className='mb-4 p-4 bg-red-500/10 border border-red-500/30 rounded text-red-400'>
-                        {error}
+                        {error || orderError}
                     </div>
                 )}
 
