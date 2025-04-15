@@ -149,6 +149,16 @@ export const getUserOrders = async (req, res) => {
   }
 };
 
+export const getAdminOrders = async (req,res)=>{
+    try {
+        const orders = await Order.find({}).populate('user', 'name email phone address');
+        res.status(200).json({ success: true, orders });
+    } catch (error) {
+        console.error("Error fetching orders:", error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+}
+
 // Update order to paid
 export const updateOrderToPaid = async (req, res) => {
   const { orderId } = req.params;
@@ -214,6 +224,39 @@ export const updateOrderToDelivered = async (req, res) => {
       success: true, 
       order,
       message: "Order marked as delivered" 
+    });
+  } catch (error) {
+    console.error("Error updating order:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// Update order to shipped
+export const updateOrderToShipped = async (req, res) => {
+  const { orderId } = req.params;
+  const userId = req.user.id;
+
+  try {
+    const order = await Order.findOne({ 
+      _id: orderId,
+      user: userId 
+    });
+
+    if (!order) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "Order not found" 
+      });
+    }
+
+    order.status = "Shipped";
+
+    await order.save();
+
+    res.status(200).json({ 
+      success: true, 
+      order,
+      message: "Order marked as shipped" 
     });
   } catch (error) {
     console.error("Error updating order:", error);

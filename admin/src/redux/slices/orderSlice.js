@@ -20,7 +20,12 @@ export const getOrderById = createAsyncThunk(
     try {
       const { data } = await axios.get(
         `${backendUrl}/api/orders/${orderId}`,
-        { withCredentials: true }
+        { withCredentials: true,
+          headers: {
+  
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
+         }
       );
       return data;
     } catch (error) {
@@ -37,8 +42,13 @@ export const getUserOrders = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(
-        `${backendUrl}/api/orders`,
-        { withCredentials: true }
+        `${backendUrl}/api/orders/admin/orders`,
+        { withCredentials: true,
+          headers: {
+  
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
+         }
       );
       return data;
     } catch (error) {
@@ -57,7 +67,12 @@ export const updateOrderToPaid = createAsyncThunk(
       const { data } = await axios.put(
         `${backendUrl}/api/orders/${orderId}/pay`,
         {},
-        { withCredentials: true }
+        { withCredentials: true,
+          headers: {
+  
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
+         }
       );
       return data;
     } catch (error) {
@@ -76,12 +91,41 @@ export const updateOrderToDelivered = createAsyncThunk(
       const { data } = await axios.put(
         `${backendUrl}/api/orders/${orderId}/deliver`,
         {},
-        { withCredentials: true }
+        { withCredentials: true,
+          headers: {
+  
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
+         }
       );
       return data;
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to update order delivery status."
+      );
+    }
+  }
+);
+
+// Update order to shipped
+export const updateOrderToShipped = createAsyncThunk(
+  "order/updateOrderToShipped",
+  async (orderId, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.put(
+        `${backendUrl}/api/orders/${orderId}/ship`,
+        {},
+        { withCredentials: true,
+          headers: {
+  
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
+         }
+      );
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to update order shipping status."
       );
     }
   }
@@ -162,6 +206,26 @@ const orderSlice = createSlice({
         toast.success(action.payload.message);
       })
       .addCase(updateOrderToDelivered.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        toast.error(action.payload);
+      })
+      // Update order to shipped
+      .addCase(updateOrderToShipped.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateOrderToShipped.fulfilled, (state, action) => {
+        state.loading = false;
+        if (state.currentOrder?._id === action.payload.order._id) {
+          state.currentOrder = action.payload.order;
+        }
+        state.orders = state.orders.map(order => 
+          order._id === action.payload.order._id ? action.payload.order : order
+        );
+        toast.success(action.payload.message);
+      })
+      .addCase(updateOrderToShipped.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
         toast.error(action.payload);

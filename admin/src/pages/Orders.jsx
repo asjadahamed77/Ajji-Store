@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getUserOrders } from '../redux/slices/orderSlice'
+import { getUserOrders, updateOrderToShipped, updateOrderToDelivered } from '../redux/slices/orderSlice'
 import dayjs from 'dayjs'
 
 const Orders = () => {
@@ -10,6 +10,22 @@ const Orders = () => {
   useEffect(()=>{
     dispatch(getUserOrders())
   },[dispatch])
+
+  const handleMarkAsShipped = async (orderId) => {
+    try {
+      await dispatch(updateOrderToShipped(orderId)).unwrap();
+    } catch (error) {
+      console.error("Failed to mark order as shipped:", error);
+    }
+  };
+
+  const handleMarkAsDelivered = async (orderId) => {
+    try {
+      await dispatch(updateOrderToDelivered(orderId)).unwrap();
+    } catch (error) {
+      console.error("Failed to mark order as delivered:", error);
+    }
+  };
 
   if (loading) {
     return (
@@ -83,7 +99,6 @@ const Orders = () => {
                   <div>
                     <h3 className='text-lg font-medium text-blue-200 mb-2'>Shipping Address</h3>
                     <div className='text-sm text-blue-300/70'>
-                      <p><span className='font-medium'>Name:</span> {order.shippingAddress.name}</p>
                       <p><span className='font-medium'>Address:</span> {order.shippingAddress.address}</p>
                       <p><span className='font-medium'>City:</span> {order.shippingAddress.city}</p>
                       <p><span className='font-medium'>Postal Code:</span> {order.shippingAddress.postalCode}</p>
@@ -122,12 +137,27 @@ const Orders = () => {
                 </div>
                 
                 <div className='mt-4 flex space-x-2'>
-                  <button className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors'>
-                    Mark as Shipped
-                  </button>
-                  <button className='px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors'>
-                    Mark as Delivered
-                  </button>
+                  {order.status === 'Processing' && (
+                    <button 
+                      onClick={() => handleMarkAsShipped(order._id)}
+                      className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors'
+                    >
+                      Mark as Shipped
+                    </button>
+                  )}
+                  {order.status === 'Shipped' && (
+                    <button 
+                      onClick={() => handleMarkAsDelivered(order._id)}
+                      className='px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors'
+                    >
+                      Mark as Delivered
+                    </button>
+                  )}
+                  {order.status === 'Delivered' && (
+                    <span className='px-4 py-2 bg-green-500/20 text-green-400 rounded'>
+                      Order Delivered
+                    </span>
+                  )}
                 </div>
               </div>
             ))}

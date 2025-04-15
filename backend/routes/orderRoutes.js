@@ -5,8 +5,11 @@ import {
   getOrderById,
   getUserOrders,
   updateOrderToPaid,
-  updateOrderToDelivered
+  updateOrderToDelivered,
+  updateOrderToShipped,
+  getAdminOrders
 } from "../controllers/orderController.js";
+import authAdmin from "../middlewares/adminAuth.js";
 
 const orderRouter = express.Router();
 
@@ -18,11 +21,15 @@ orderRouter.get("/:id", userAuth, getOrderById);
 
 // Get user's orders
 orderRouter.get("/", userAuth, getUserOrders);
+orderRouter.get("/admin/orders", authAdmin, getAdminOrders);
 
 // Update order to paid
-orderRouter.put("/:id/pay", userAuth, updateOrderToPaid);
+orderRouter.put("/:orderId/pay", userAuth, updateOrderToPaid);
+
+// Update order to shipped
+orderRouter.put("/:orderId/ship", userAuth, updateOrderToShipped);
 
 // Update order to delivered
-orderRouter.put("/:id/deliver", userAuth, updateOrderToDelivered);
+orderRouter.put("/:orderId/deliver", userAuth, updateOrderToDelivered);
 
 export default orderRouter; 
