@@ -16,6 +16,7 @@ const Navbar = ({setShowUserProfile}) => {
 
   const logoutHandler = ()=>{
     dispatch(logout())
+    navigate("/login")
   }
 
   const navLinks = [

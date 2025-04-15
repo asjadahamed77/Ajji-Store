@@ -10,6 +10,7 @@ import adminRouter from './routes/adminRoutes.js'
 import adminProductRouter from './routes/adminProductRoutes.js'
 import productRouter from './routes/productRoutes.js'
 import cartRouter from './routes/cartRoutes.js'
+import orderRouter from './routes/orderRoutes.js'
 
 
 
@@ -37,6 +38,7 @@ app.use('/api/admin', adminRouter)
 app.use('/api/admin/product', adminProductRouter)
 app.use('/api/product', productRouter)
 app.use('/api/cart', cartRouter)
+app.use('/api/orders', orderRouter)
 
 
 app.get('/',(req,res)=>{

@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs"; 
 import { editUser } from "../redux/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = ({ showUserProfile, setShowUserProfile }) => {
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate()
   const [editMode, setEditMode] = useState(false);
   const modalRef = useRef();
   const dispatch = useDispatch()
@@ -38,6 +40,11 @@ const UserProfile = ({ showUserProfile, setShowUserProfile }) => {
     setEditMode(false);
   };
 
+  const handleMyOrders = ()=>{
+    setShowUserProfile(false)
+    navigate('/my-orders')
+  }
+
   return (
     showUserProfile && (
       <div className="fixed inset-0 backdrop-blur-3xl flex items-center justify-center z-50">
@@ -54,6 +61,8 @@ const UserProfile = ({ showUserProfile, setShowUserProfile }) => {
               {dayjs(user.createdAt).format("MMMM D, YYYY hh:mm A")}
             </span>
           </p>
+
+          <button onClick={handleMyOrders} className="text-sm bg-white/15 w-fit px-4 py-2 rounded-md mt-4 cursor-pointer hover:opacity-70 duration-300 transition-colors">Click here to view orders</button>
 
           <div className="flex flex-col gap-2 w-full mt-8">
             {/* Name */}
