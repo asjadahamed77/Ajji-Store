@@ -13,10 +13,10 @@ const MyOrders = () => {
 
   if (loading) {
     return (
-      <div className='min-h-screen bg-gradient-to-b from-blue-950 to-blue-900 py-8 px-4 sm:px-6 lg:px-8'>
+      <div className='min-h-screen  py-8 px-4 sm:px-6 lg:px-8'>
         <div className='max-w-7xl mx-auto'>
           <div className='text-center'>
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400 mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 mt-8 border-b-2 border-blue-400 mx-auto"></div>
             <p className="mt-4 text-blue-300">Loading your orders...</p>
           </div>
         </div>
@@ -26,7 +26,7 @@ const MyOrders = () => {
 
   if (error) {
     return (
-      <div className='min-h-screen bg-gradient-to-b from-blue-950 to-blue-900 py-8 px-4 sm:px-6 lg:px-8'>
+      <div className='min-h-screen  py-8 px-4 sm:px-6 lg:px-8'>
         <div className='max-w-7xl mx-auto'>
           <div className='text-center'>
             <p className="text-red-400">{error}</p>
@@ -37,7 +37,7 @@ const MyOrders = () => {
   }
 
   return (
-    <div className='min-h-screen bg-gradient-to-b from-blue-950 to-blue-900 py-8 px-4 sm:px-6 lg:px-8'>
+    <div className='min-h-screen  py-8 px-4 sm:px-6 lg:px-8'>
       <div className='max-w-7xl mx-auto'>
         <h1 className="w-fit text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-200 to-blue-400 bg-clip-text text-transparent mb-8">My Orders</h1>
         
@@ -74,13 +74,13 @@ const MyOrders = () => {
                         <div>
                           <p className='font-medium text-blue-200'>{item.name}</p>
                           <p className='text-sm text-blue-300/70'>
-                            {item.quantity} x ${item.price}
+                            {item.quantity} x Rs.{item.price}
                             {item.color && ` - ${item.color}`}
                             {item.storage && ` - ${item.storage}`}
                           </p>
                         </div>
                       </div>
-                      <p className='font-medium text-blue-200'>${item.price * item.quantity}</p>
+                      <p className='font-medium text-blue-200'>Rs.{item.price * item.quantity}</p>
                     </div>
                   ))}
                 </div>
@@ -89,7 +89,7 @@ const MyOrders = () => {
                 
                 <div className='flex justify-between text-blue-200 font-semibold'>
                   <span>Total</span>
-                  <span>${order.totalPrice}</span>
+                  <span>Rs.{order.totalPrice}</span>
                 </div>
                 
                 <div className='mt-4 text-sm text-blue-300/70'>

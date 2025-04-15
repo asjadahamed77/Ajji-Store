@@ -50,8 +50,7 @@ const orderSchema = new mongoose.Schema({
     orderItems: [orderItemSchema],
     shippingAddress: {
         name: {
-          type: String,
-        
+          type: String,     
         },
         address: {
           type: String,
