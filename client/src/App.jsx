@@ -14,6 +14,7 @@ import Home from "./pages/Home";
 import CartPage from "./pages/CartPage";
 import Checkout from "./pages/Checkout";
 import MyOrders from "./pages/MyOrders";
+import Footer from "./components/Footer";
 
 function App() {
   const location = useLocation();
@@ -55,6 +56,7 @@ function App() {
           <Route path="checkout" element={<Checkout />} />
           <Route path="my-orders" element={<MyOrders />} />
         </Routes>
+        {!isAuthPage && <Footer />}
       </Provider>
     </>
   );

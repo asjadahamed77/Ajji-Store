@@ -42,7 +42,7 @@ const Orders = () => {
 
   if (error) {
     return (
-      <div className='min-h-screen bg-gradient-to-b from-blue-950 to-blue-900 py-8 px-4 sm:px-6 lg:px-8'>
+      <div className='min-h-screen  py-8 px-4 sm:px-6 lg:px-8'>
         <div className='max-w-7xl mx-auto'>
           <div className='text-center'>
             <p className="text-red-400">{error}</p>
