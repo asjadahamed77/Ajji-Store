@@ -42,6 +42,7 @@ function App() {
         />
         {!isAuthPage && <TopBar />}
         {!isAuthPage && <Navbar setShowUserProfile={setShowUserProfile} />}
+    
    
        {
         showUserProfile &&  <UserProfile showUserProfile={showUserProfile} setShowUserProfile={setShowUserProfile}  />
