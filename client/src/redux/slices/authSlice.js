@@ -118,13 +118,19 @@ export const editUser = createAsyncThunk(
   "user/editUser",
   async ({ id, ...formData }, { rejectWithValue }) => {
     try {
+      const token = localStorage.getItem("userToken");
       const { data } = await axios.put(`${backendUrl}/api/user/edit/${id}`, formData, {
         withCredentials: true,
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
       });
 
       if (data.success) {
         localStorage.setItem("userInfo", JSON.stringify(data.user));
+        
+        
         toast.success(data.message);
         return data.user;
       } else {
