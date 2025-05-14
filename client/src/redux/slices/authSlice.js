@@ -124,9 +124,8 @@ export const editUser = createAsyncThunk(
       const { data } = await axios.put(`${backendUrl}/api/user/edit/${id}`, formData, {
         headers: {
           'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` }),
+          Authorization: `Bearer ${token}`,
         },
-        withCredentials: true,
         
       });
 
