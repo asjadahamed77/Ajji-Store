@@ -11,6 +11,8 @@ const initialState = {
   error: null,
 };
 
+const token = localStorage.getItem("userToken");
+
 // Create order
 export const createOrder = createAsyncThunk(
   "order/createOrder",
@@ -19,7 +21,10 @@ export const createOrder = createAsyncThunk(
       const { data } = await axios.post(
         `${backendUrl}/api/orders`,
         orderData,
-        { withCredentials: true }
+        {  headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        }, }
       );
       return data;
     } catch (error) {
@@ -37,7 +42,10 @@ export const getOrderById = createAsyncThunk(
     try {
       const { data } = await axios.get(
         `${backendUrl}/api/orders/${orderId}`,
-        { withCredentials: true }
+        { headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        }, }
       );
       return data;
     } catch (error) {
@@ -55,7 +63,10 @@ export const getUserOrders = createAsyncThunk(
     try {
       const { data } = await axios.get(
         `${backendUrl}/api/orders`,
-        { withCredentials: true }
+        { headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        }, }
       );
       return data;
     } catch (error) {
@@ -74,7 +85,10 @@ export const updateOrderToPaid = createAsyncThunk(
       const { data } = await axios.put(
         `${backendUrl}/api/orders/${orderId}/pay`,
         {},
-        { withCredentials: true }
+        { headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },}
       );
       return data;
     } catch (error) {
@@ -93,7 +107,10 @@ export const updateOrderToDelivered = createAsyncThunk(
       const { data } = await axios.put(
         `${backendUrl}/api/orders/${orderId}/deliver`,
         {},
-        { withCredentials: true }
+        { headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        }, }
       );
       return data;
     } catch (error) {

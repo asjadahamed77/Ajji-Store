@@ -16,6 +16,8 @@ const initialState = {
   successMessage: null,
 };
 
+const token = localStorage.getItem("userToken");
+
 // REGISTER
 export const register = createAsyncThunk(
   "auth/register",
@@ -52,8 +54,10 @@ export const verifyEmail = createAsyncThunk(
         `${backendUrl}/api/auth/verify-email`,
         { otp, id: userInfo._id },
         {
-          withCredentials: true,
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -118,8 +122,8 @@ export const editUser = createAsyncThunk(
   "user/editUser",
   async ({ id, ...formData }, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("userToken");
-      console.log(token);
+   
+     
       
       const { data } = await axios.put(`${backendUrl}/api/user/edit/${id}`, formData, {
         headers: {

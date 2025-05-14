@@ -20,6 +20,8 @@ const initialState = {
   error: null,
 };
 
+const token = localStorage.getItem("userToken");
+
 // Add item to cart
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
@@ -34,7 +36,10 @@ export const addToCart = createAsyncThunk(
           color,
         },
         {
-          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       
@@ -54,7 +59,10 @@ export const getCart = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(`${backendUrl}/api/cart`, {
-        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       
@@ -73,7 +81,10 @@ export const removeFromCart = createAsyncThunk(
   async (productId, { rejectWithValue }) => {
     try {
       const { data } = await axios.delete(`${backendUrl}/api/cart/${productId}`, {
-        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       });
       return data;
     } catch (error) {
@@ -92,7 +103,10 @@ export const updateCartItemQuantity = createAsyncThunk(
       const { data } = await axios.put(
         `${backendUrl}/api/cart/${productId}`,
         { quantity },
-        { withCredentials: true }
+        {  headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },}
       );
       return data;
     } catch (error) {
