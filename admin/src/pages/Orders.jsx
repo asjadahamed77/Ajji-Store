@@ -53,7 +53,7 @@ const Orders = () => {
   }
 
   return (
-    <div className='h-screen overflow-y-scroll  py-8 px-4 sm:px-6 lg:px-8'>
+    <div className='h-screen overflow-y-scroll  py-8 px-4 sm:px-6 lg:px-8 pb-24'>
       <div className='max-w-7xl mx-auto'>
         <h1 className="w-fit text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-200 to-blue-400 bg-clip-text text-transparent mb-8">All Orders</h1>
         

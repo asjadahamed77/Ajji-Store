@@ -93,7 +93,6 @@ export const updateOrderToDelivered = createAsyncThunk(
         {},
         { withCredentials: true,
           headers: {
-  
             Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
           },
          }
