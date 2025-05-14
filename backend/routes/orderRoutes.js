@@ -24,12 +24,12 @@ orderRouter.get("/", userAuth, getUserOrders);
 orderRouter.get("/admin/orders", authAdmin, getAdminOrders);
 
 // Update order to paid
-orderRouter.put("/:orderId/pay", userAuth, updateOrderToPaid);
+orderRouter.put("/:orderId/pay", authAdmin, updateOrderToPaid);
 
 // Update order to shipped
-orderRouter.put("/:orderId/ship", userAuth, updateOrderToShipped);
+orderRouter.put("/:orderId/ship", authAdmin, updateOrderToShipped);
 
 // Update order to delivered
-orderRouter.put("/:orderId/deliver", userAuth, updateOrderToDelivered);
+orderRouter.put("/:orderId/deliver", authAdmin, updateOrderToDelivered);
 
 export default orderRouter; 

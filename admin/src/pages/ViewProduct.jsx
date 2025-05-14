@@ -47,8 +47,8 @@ const ViewProduct = () => {
   }
 
   return (
-    <div className="">
-      <div className="xl:px-12 pt-8 px-8 xl:gap-8 w-full">
+    <div className=" ">
+      <div className="xl:px-12 pt-8 px-8 xl:gap-8 w-full ">
         <input
           type="text"
           placeholder="search product..."
@@ -59,7 +59,7 @@ const ViewProduct = () => {
       </div>
 
       {filteredProducts && filteredProducts.length > 0 ? (
-        <div className="w-full h-[93vh] grid lg:grid-cols-2 grid-cols-1 place-items-stretch xl:p-12 p-8 xl:gap-8 gap-4 overflow-y-scroll ">
+        <div className="w-full h-[93vh] grid lg:grid-cols-2 grid-cols-1 place-items-stretch xl:p-12 p-8 xl:gap-8 gap-4 overflow-y-scroll  scroll-pb-32">
           {filteredProducts.map((product, index) => (
             <div
               key={index}

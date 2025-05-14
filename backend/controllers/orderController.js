@@ -199,12 +199,12 @@ export const updateOrderToPaid = async (req, res) => {
 // Update order to delivered
 export const updateOrderToDelivered = async (req, res) => {
   const { orderId } = req.params;
-  const userId = req.user.id;
+  
 
   try {
     const order = await Order.findOne({ 
       _id: orderId,
-      user: userId 
+      user 
     });
 
     if (!order) {
@@ -234,12 +234,15 @@ export const updateOrderToDelivered = async (req, res) => {
 // Update order to shipped
 export const updateOrderToShipped = async (req, res) => {
   const { orderId } = req.params;
-  const userId = req.user.id;
+  
+  
+
+
 
   try {
     const order = await Order.findOne({ 
       _id: orderId,
-      user: userId 
+   
     });
 
     if (!order) {
