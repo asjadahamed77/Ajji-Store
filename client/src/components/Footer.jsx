@@ -26,9 +26,7 @@ const Footer = () => {
           AjjiStore is your one-stop destination for the latest smartphones,
           tablets, laptops, MacBooks, accessories, and more. Whether you're
           upgrading your device or looking for high-quality tech gear, we bring
-          you a curated selection of top brands at unbeatable prices. With a
-          sleek, user-friendly design, secure checkout, and fast delivery,
-          shopping with AjjiStore is as smart as the devices we sell.
+          you a curated selection of top brands at unbeatable prices.
         </p>
       </div>
       <div>

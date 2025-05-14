@@ -113,7 +113,7 @@ const Checkout = () => {
     const cartItems = cart?.products || [];
     if (!cartItems.length) {
         return (
-            <div className='min-h-screen bg-gradient-to-b from-blue-950 to-blue-900 py-8 px-4 sm:px-6 lg:px-8'>
+            <div className='min-h-screenpy-8 px-4 sm:px-6 lg:px-8'>
                 <div className='max-w-7xl mx-auto'>
                     <div className='text-center'>
                         <h1 className='text-3xl font-bold text-blue-200 mb-4'>Your Cart is Empty</h1>
@@ -131,7 +131,7 @@ const Checkout = () => {
     }
 
     return (
-        <div className='min-h-screen bg-gradient-to-b from-blue-950 to-blue-900 py-8 px-4 sm:px-6 lg:px-8'>
+        <div className='min-h-screen  py-8 px-4 sm:px-6 lg:px-8'>
             <div className='max-w-7xl mx-auto'>
                 <h1 className='text-3xl font-bold text-blue-200 mb-8'>Checkout</h1>
                 
@@ -216,18 +216,18 @@ const Checkout = () => {
                                         <div>
                                             <p className='font-medium text-blue-200'>{item.name}</p>
                                             <p className='text-sm text-blue-300/70'>
-                                                {item.quantity} x ${item.price}
+                                                {item.quantity} x Rs.{item.price}
                                                 {item.color && ` - ${item.color}`}
                                                 {item.storage && ` - ${item.storage}`}
                                             </p>
                                         </div>
-                                        <p className='font-medium text-blue-200'>${item.price * item.quantity}</p>
+                                        <p className='font-medium text-blue-200'>Rs.{item.price * item.quantity}</p>
                                     </div>
                                 ))}
                                 <div className='border-t border-blue-300/20 my-4'></div>
                                 <div className='flex justify-between text-blue-200 font-semibold text-lg'>
                                     <span>Total</span>
-                                    <span>${cart.totalPrice}</span>
+                                    <span>Rs.{cart.totalPrice}</span>
                                 </div>
                             </div>
                             <div className='space-y-4'>
