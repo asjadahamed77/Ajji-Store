@@ -1,45 +1,42 @@
-import React, { useEffect, useState } from 'react'
-import hero1 from '../assets/hero/hero.jpg'
-import hero2 from '../assets/hero/hero1.jpg'
-import hero3 from '../assets/hero/hero2.jpeg'
-
-const heroImages = [hero1, hero2, hero3]
+import React, { useState, useEffect } from 'react'
+import hero1 from '../assets/hero/apple-1.jpg'
+import hero2 from '../assets/hero/apple-2.jpg'
+import hero3 from '../assets/hero/apple-3.jpg'
 
 const Hero = () => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const images = [hero1, hero2, hero3]
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) =>
-        (prevIndex + 1) % heroImages.length
-      )
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length)
     }, 3000)
 
-    return () => clearInterval(interval) // Cleanup
+    return () => clearInterval(interval)
   }, [])
 
   return (
-    <div className='relative w-full h-[70vh] mt-2 overflow-hidden'>
+    <div className='relative w-full h-[60vh] lg:h-[80vh]'>
       <img
-        src={heroImages[currentImageIndex]}
-        alt="AjjiStore Hero"
-        className='w-full h-full object-cover transition-opacity duration-1000'
+        src={images[currentIndex]}
+        alt="Hero Image"
+        className='w-full h-full absolute inset-0 object-cover'
       />
-
-      {/* Overlay */}
-      <div className='absolute inset-0 bg-gradient-to-r from-blue-900/10 to-blue-800/60'></div>
-
-      {/* Centered Text */}
-      <div className='absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4'>
-        <h1 className='text-4xl md:text-5xl font-bold mb-4'>
-          Welcome to AjjiStore
+      <div className='absolute inset-0 bg-black/50 flex flex-col justify-center sm:items-start xl:pl-32 md:pl-16 sm:pl-8 px-4'>
+        <h1 className="w-fit text-2xl lg:text-6xl sm:text-4xl font-bold bg-gradient-to-l from-blue-200 to-blue-400 text-shadow-xs bg-clip-text text-transparent">
+          Your one-stop Mobile Store
         </h1>
-        <p className='text-lg md:text-xl mb-6'>
-          Your one-stop tech destination – phones, laptops, and more!
+        <p className='md:text-lg text-sm lg:max-w-[600px] mt-4 text-blue-200'>
+          Discover the latest smartphones and accessories with fast delivery, secure payments, and a smooth shopping experience.
         </p>
-        <button className='bg-white text-black px-6 py-2 rounded-lg font-semibold hover:bg-gray-200 transition'>
-          Shop Now
-        </button>
+        <div className='flex w-fit items-center justify-self-start gap-4 mt-6'>
+          <button className='text-xs sm:text-sm md:text-base px-8 py-2 bg-gradient-to-b from-blue-400 to-blue-800 rounded-lg hover:opacity-80 cursor-pointer transition-all duration-300 '>
+            Shop Now
+          </button>
+          <button className='text-xs sm:text-sm md:text-base px-8 py-2 bg-transparent border-2 rounded-lg hover:opacity-80 cursor-pointer transition-all duration-300 '>
+            Learn More
+          </button>
+        </div>
       </div>
     </div>
   )
