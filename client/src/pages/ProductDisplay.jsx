@@ -114,7 +114,7 @@ const ProductDisplay = () => {
           >
             <div
               ref={imageRef}
-              className="w-full h-full border border-blue-200 bg-no-repeat bg-cover bg-center transition duration-300"
+              className="w-full h-full bg-white border border-blue-200 bg-no-repeat bg-cover bg-center transition duration-300"
               style={{
                 backgroundImage: `url(${selectedImage?.url})`,
                 backgroundSize: zoomStyle.backgroundPosition ? '200%' : 'contain',

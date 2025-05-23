@@ -41,7 +41,7 @@ const HomeTablets = () => {
             <img
               src={item.images[0].url}
               alt="Phone"
-              className="w-[150px] h-[200px] object-cover"
+             className="w-60 h-60 object-contain bg-white"
             />
           </div>
           <p className="text-blue-200 font-semibold mt-4 capitalize">{item.name}</p>

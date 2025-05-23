@@ -16,11 +16,11 @@ const Hero = () => {
   }, [])
 
   return (
-    <div className='relative w-full h-[60vh] lg:h-[80vh]'>
+    <div className='relative w-full h-[60vh]   lg:h-[80vh]'>
       <img
         src={images[currentIndex]}
         alt="Hero Image"
-        className='w-full h-full absolute inset-0 object-cover'
+        className='w-full h-full absolute inset-0 object-cover rounded-3xl'
       />
       <div className='absolute inset-0 bg-black/50 flex flex-col justify-center sm:items-start xl:pl-32 md:pl-16 sm:pl-8 px-4'>
         <h1 className="w-fit text-2xl lg:text-6xl sm:text-4xl font-bold bg-gradient-to-l from-blue-200 to-blue-400 text-shadow-xs bg-clip-text text-transparent">
@@ -30,10 +30,10 @@ const Hero = () => {
           Discover the latest smartphones and accessories with fast delivery, secure payments, and a smooth shopping experience.
         </p>
         <div className='flex w-fit items-center justify-self-start gap-4 mt-6'>
-          <button className='text-xs sm:text-sm md:text-base px-8 py-2 bg-gradient-to-b from-blue-400 to-blue-800 rounded-lg hover:opacity-80 cursor-pointer transition-all duration-300 '>
+          <button className='text-xs sm:text-sm md:text-base px-8 py-2 border-2 bg-gradient-to-b from-blue-400 to-blue-800 rounded-lg hover:opacity-80 cursor-pointer transition-all duration-300 '>
             Shop Now
           </button>
-          <button className='text-xs sm:text-sm md:text-base px-8 py-2 bg-transparent border-2 rounded-lg hover:opacity-80 cursor-pointer transition-all duration-300 '>
+          <button className='text-xs sm:text-sm md:text-base px-8 py-2 bg-transparent  border-2 rounded-lg hover:opacity-80 cursor-pointer transition-all duration-300 '>
             Learn More
           </button>
         </div>
