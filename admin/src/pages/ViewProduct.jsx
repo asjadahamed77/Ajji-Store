@@ -6,7 +6,7 @@ import { deleteProduct, viewProduct } from "../redux/slices/adminSlice";
 const ViewProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { products, loading } = useSelector((state) => state.admin);
+  const { products, loading, error } = useSelector((state) => state.admin);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -40,12 +40,28 @@ const ViewProduct = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <h1 className="text-sm text-blue-200 font-semibold">Loading...</h1>
+      <div className="h-screen py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 mt-8 border-b-2 border-blue-400 mx-auto"></div>
+            <p className="mt-4 text-blue-300">Loading Users...</p>
+          </div>
+        </div>
       </div>
     );
   }
 
+  if (error) {
+    return (
+      <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center">
+            <p className="text-red-400">{error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className=" ">
       <div className="xl:px-12 pt-8 px-8 xl:gap-8 w-full ">
