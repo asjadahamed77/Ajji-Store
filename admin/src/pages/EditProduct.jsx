@@ -12,7 +12,7 @@ const EditProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  const { singleProduct, loading } = useSelector((state) => state.admin);
+  const { singleProduct, loading, error } = useSelector((state) => state.admin);
 
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
@@ -147,6 +147,31 @@ const EditProduct = () => {
       toast.error("Update failed.");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="h-screen py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 mt-8 border-b-2 border-blue-400 mx-auto"></div>
+            <p className="mt-4 text-blue-300">Loading...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center">
+            <p className="text-red-400">{error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="w-full h-[93vh] flex flex-col gap-4 md:px-8 px-4 py-8 overflow-y-scroll">

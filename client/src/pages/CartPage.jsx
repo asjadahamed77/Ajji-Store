@@ -19,18 +19,30 @@ const CartPage = () => {
     dispatch(getCart());
   }, [dispatch]);
 
-  if (loading)
+  if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-blue-200 text-xl">Loading...</p>
+      <div className='min-h-screen  py-8 px-4 sm:px-6 lg:px-8'>
+        <div className='max-w-7xl mx-auto'>
+          <div className='text-center'>
+            <div className="animate-spin rounded-full h-12 w-12 mt-8 border-b-2 border-blue-400 mx-auto"></div>
+            <p className="mt-4 text-blue-300">Loading cart...</p>
+          </div>
+        </div>
       </div>
-    );
-  if (error)
+    )
+  }
+
+  if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-red-400 text-xl">Error: {error}</p>
+      <div className='min-h-screen  py-8 px-4 sm:px-6 lg:px-8'>
+        <div className='max-w-7xl mx-auto'>
+          <div className='text-center'>
+            <p className="text-red-400">{error}</p>
+          </div>
+        </div>
       </div>
-    );
+    )
+  }
   if (!cart || cart.products.length === 0)
     return (
       <div className="min-h-screen flex items-center justify-center">
