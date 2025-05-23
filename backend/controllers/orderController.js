@@ -204,7 +204,7 @@ export const updateOrderToDelivered = async (req, res) => {
   try {
     const order = await Order.findOne({ 
       _id: orderId,
-      user 
+    
     });
 
     if (!order) {
