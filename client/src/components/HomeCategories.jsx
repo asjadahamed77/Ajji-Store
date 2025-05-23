@@ -8,7 +8,7 @@ import Hero from './Hero'
 
 const HomeCategories = () => {
   return (
-    <div className='px-2 md:px-6 lg:px-10 py-8 space-y-12'>
+    <div className='px-4 md:px-6 lg:px-10 py-8 space-y-12'>
       <Hero />
       <HomeApple />
       <HomeSamsung />
