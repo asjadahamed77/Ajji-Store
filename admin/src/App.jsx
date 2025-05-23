@@ -11,6 +11,7 @@ import ViewProduct from "./pages/ViewProduct";
 import Orders from "./pages/Orders";
 import DashboardLayout from "./layout/DashboardLayout";
 import EditProduct from "./pages/EditProduct";
+import AllUsers from "./pages/AllUsers";
 
 
 // Auth protection
@@ -53,6 +54,7 @@ function App() {
           <Route path="add-product" element={<AddProduct />} />
           <Route path="view-product" element={<ViewProduct />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="users" element={<AllUsers />} />
           <Route path="edit/:id" element={<EditProduct />} />
         </Route>
       </Routes>

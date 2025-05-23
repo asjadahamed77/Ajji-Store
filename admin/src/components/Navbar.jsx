@@ -7,6 +7,7 @@ import { HiOutlineMenuAlt4 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import { RiAddBoxFill } from "react-icons/ri";
 import { MdGridView, MdBookmarkBorder } from "react-icons/md";
+import { FaUsers } from "react-icons/fa";
 
 const Navbar = ({ showSidebar, setShowSidebar }) => {
   const dispatch = useDispatch();
@@ -76,6 +77,11 @@ const Navbar = ({ showSidebar, setShowSidebar }) => {
               <NavLink to="/orders" onClick={() => setShowSidebar(false)}>
                 <li className="flex items-center gap-2 p-2 border hover:bg-amber-50 hover:text-blue-950 transition-all duration-300">
                   <MdBookmarkBorder /> ORDERS
+                </li>
+              </NavLink>
+              <NavLink to="/users" onClick={() => setShowSidebar(false)}>
+                <li className="flex items-center gap-2 p-2 border hover:bg-amber-50 hover:text-blue-950 transition-all duration-300">
+                  <FaUsers /> All USERS
                 </li>
               </NavLink>
             </ul>

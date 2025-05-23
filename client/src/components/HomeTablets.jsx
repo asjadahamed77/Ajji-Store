@@ -45,13 +45,15 @@ const HomeTablets = () => {
             />
           </div>
           <p className="text-blue-200 font-semibold mt-4 capitalize">{item.name}</p>
-         {
-            (!Array.isArray(item.variants) || item.variants.length === 0) && <p className="text-blue-100 font-normal text-sm">Starting at <span className="font-semibold text-base text-blue-300" >Rs.{item.price}</span></p>
+      
+        {
+            (!Array.isArray(item.variants) || item.variants.length === 0) && <p className="text-blue-100 font-normal text-sm">Starting at <span className="font-semibold  text-base text-blue-300" >Rs.{item.price}</span></p>
          }
          {
-            Array.isArray(item.variants) && item.variants.length > 0 && <p className="text-blue-100 font-normal text-sm">Starting at <span className="font-semibold text-base text-blue-300" >Rs.{item.variants[0].price}</span></p>
+            Array.isArray(item.variants) && item.variants.length > 0 && <p className="text-blue-100 font-normal  text-sm">Starting at <span className="font-semibold text-base text-blue-300" >Rs.{item.variants[0].price}</span></p>
 
          }
+        
         </Link>
       ))}
     </div>
