@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { RiAddBoxFill } from "react-icons/ri";
 import { MdGridView, MdBookmarkBorder } from "react-icons/md";
+import { FaUsers } from 'react-icons/fa';
 
 const Sidebar = () => {
   return (
@@ -39,6 +40,16 @@ const Sidebar = () => {
           }
         >
           <li className='flex items-center gap-2'><MdBookmarkBorder /> ORDERS</li>
+        </NavLink>
+        <NavLink
+          to='/users'
+          className={({ isActive }) =>
+            `border transition-all duration-300 flex items-center gap-2 p-2 cursor-pointer ${
+              isActive ? 'bg-amber-50 text-blue-950' : 'text-blue-50 hover:bg-amber-50 hover:text-blue-950'
+            }`
+          }
+        >
+          <li className='flex items-center gap-2'><FaUsers /> All USERS</li>
         </NavLink>
 
       </ul>
