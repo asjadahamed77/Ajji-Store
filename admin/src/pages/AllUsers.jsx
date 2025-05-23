@@ -17,6 +17,31 @@ const AllUsers = () => {
     dispatch(fetchUsers());
   }, [dispatch]);
 
+  if (loading) {
+    return (
+      <div className='h-screen  py-8 px-4 sm:px-6 lg:px-8'>
+        <div className='max-w-7xl mx-auto'>
+          <div className='text-center'>
+            <div className="animate-spin rounded-full h-12 w-12 mt-8 border-b-2 border-blue-400 mx-auto"></div>
+            <p className="mt-4 text-blue-300">Loading Users...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className='min-h-screen  py-8 px-4 sm:px-6 lg:px-8'>
+        <div className='max-w-7xl mx-auto'>
+          <div className='text-center'>
+            <p className="text-red-400">{error}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="w-full h-[93vh] flex flex-col gap-4 md:px-8 px-4 py-8 overflow-y-scroll">
       <h1 className="w-fit text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-200 to-blue-400 bg-clip-text text-transparent mb-8">
