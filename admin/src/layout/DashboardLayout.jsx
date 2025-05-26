@@ -13,7 +13,7 @@ const DashboardLayout = () => {
   return (
     <>
       <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-      <div className="flex h-[93vh] overflow-y-scroll">
+      <div className="flex h-[93vh] overflow-y-hidden">
         <div className="h-full md:border-r">
           <Sidebar />
         </div>

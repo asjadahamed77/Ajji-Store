@@ -43,7 +43,7 @@ const ViewProduct = () => {
       <div className="h-screen py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 mt-8 border-b-2 border-blue-400 mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 mt-8  border-b-2 border-blue-400 mx-auto"></div>
             <p className="mt-4 text-blue-300">Loading Users...</p>
           </div>
         </div>
@@ -64,22 +64,22 @@ const ViewProduct = () => {
   }
   return (
     <div className=" ">
-      <div className="xl:px-12 pt-8 px-8 xl:gap-8 w-full ">
+      <div className="xl:px-12 pt-6 px-8 xl:gap-8 w-full ">
         <input
           type="text"
           placeholder="search product..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full p-2 border border-blue-200 rounded-md z-20"
+          className="w-full p-2 mb-4 border border-blue-200 rounded-md z-20"
         />
       </div>
 
       {filteredProducts && filteredProducts.length > 0 ? (
-        <div className="w-full h-[93vh] grid lg:grid-cols-2 grid-cols-1 place-items-stretch xl:p-12 p-8 xl:gap-8 gap-4 overflow-y-scroll  scroll-pb-32">
+        <div className="w-full h-[93vh] grid lg:grid-cols-2 grid-cols-1 place-items-stretch xl:px-12 px-4 mb-8 pb-32 xl:gap-8 gap-4 overflow-y-scroll  scroll-pb-32">
           {filteredProducts.map((product, index) => (
             <div
               key={index}
-              className="bg-blue-800/10 rounded-lg backdrop-blur-3xl shadow shadow-amber-50 md:p-8 p-4 hover:backdrop-brightness-50 duration-300 transition-all"
+              className="bg-blue-800/5 rounded-lg backdrop-blur-3xl shadow shadow-amber-50 md:p-8 p-4 hover:backdrop-brightness-50 duration-300 transition-all"
             >
               {/* Product Images */}
               <div className="grid grid-cols-3 items-start w-fit gap-6">
