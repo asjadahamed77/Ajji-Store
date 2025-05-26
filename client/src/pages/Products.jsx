@@ -55,7 +55,7 @@ const Products = () => {
       </div>
 
       {filteredProducts && filteredProducts.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-2 sm:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 space-y-2  gap-2 sm:gap-4">
           {filteredProducts.map((item, index) => (
             <Link
               to={`/product/${item._id}`}

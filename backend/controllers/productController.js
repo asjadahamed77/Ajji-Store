@@ -201,6 +201,31 @@ export const getNewArrivals = async (req, res) => {
   }
 };
 
+// GET /api/product/related/:productId
+export const getRelatedProducts = async (req, res) => {
+  const { productId } = req.params;
+
+
+  try {
+    const currentProduct = await Product.findById(productId);
+
+    if (!currentProduct) {
+      return res.status(404).json({ success: false, message: "Product not found" });
+    }
+
+    const relatedProducts = await Product.find({
+      category: currentProduct.category,
+      _id: { $ne: productId }, // exclude current product
+    }).limit(10); 
+
+    res.status(200).json({ success: true, relatedProducts });
+  } catch (err) {
+    console.error("Related Products Error:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+
 
 export const getProductsByCategory = async (req, res) => {
   try {

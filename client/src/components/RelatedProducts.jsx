@@ -2,15 +2,20 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-import { fetchAppleProducts } from '../redux/slices/productSlice';
-
-const HomeApple = () => {
+import { fetchRelatedProducts } from '../redux/slices/productSlice';
+const RelatedProducts = ({ id }) => {
     const dispatch = useDispatch()
-    const {appleProducts, loading, error} = useSelector(state => state.products);
+    const { relatedProducts, loading, error} = useSelector(state => state.products);
+   
 
-    useEffect(()=>{
-        dispatch(fetchAppleProducts())
-    },[dispatch])
+    
+  
+    useEffect(() => {
+        if (id) {
+          dispatch(fetchRelatedProducts(id));
+        }
+      }, [dispatch, id]);
+     
     if (loading) {
       return (
         <div className='min-h-screen  py-8 px-4 sm:px-6 lg:px-8'>
@@ -23,33 +28,27 @@ const HomeApple = () => {
         </div>
       )
     }
-  
+
     if (error) {
-      return (
-        <div className='min-h-screen  py-8 px-4 sm:px-6 lg:px-8'>
-          <div className='max-w-7xl mx-auto'>
-            <div className='text-center'>
-              <p className="text-red-400">{error}</p>
+        return (
+          <div className='min-h-screen  py-8 px-4 sm:px-6 lg:px-8'>
+            <div className='max-w-7xl mx-auto'>
+              <div className='text-center'>
+                <p className="text-red-400">{error}</p>
+              </div>
             </div>
           </div>
-        </div>
-      )
-    }
-    
-    
-   
-    
-    
-
-  return appleProducts && (
-    <div className=''>
-      {/* Title Text */}
-      <div>
-        <h1 className="w-fit text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-200 to-blue-400 bg-clip-text text-transparent">The Best of Apple, All in One Place</h1>
+        )
+      }
+  return   (
+    <div className="px-4 md:px-10 py-6">
+       {/* Title Text */}
+       <div>
+        <h1 className="w-fit text-2xl  md:text-4xl font-bold bg-gradient-to-r from-blue-200 to-blue-400 bg-clip-text text-transparent">Related Products</h1>
       </div>
-      {/* Show Products */}
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 px-2 md:px-6 space-y-2 lg:px-10 py-8 gap-2 sm:gap-4">
-      {appleProducts.map((item, index) => (
+       {/* Show Products */}
+       <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-5 px-2 md:px-6 space-y-2  lg:px-10 py-8 gap-2 sm:gap-4">
+      {relatedProducts.map((item, index) => (
         <Link 
         to={`/product/${item._id}`}
           key={index}
@@ -59,7 +58,8 @@ const HomeApple = () => {
             <img
               src={item.images[0].url}
               alt="Phone"
-              className="w-60 h-60 object-contain bg-white"
+                 className="w-60 h-60 object-contain bg-white"
+                   loading="lazy"
             />
           </div>
           <p className="text-blue-200 font-semibold mt-4 capitalize">{item.name}</p>
@@ -77,4 +77,4 @@ const HomeApple = () => {
   )
 }
 
-export default HomeApple
+export default RelatedProducts

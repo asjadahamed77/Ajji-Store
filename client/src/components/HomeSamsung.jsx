@@ -47,7 +47,7 @@ const HomeSamsung = () => {
         <h1 className="w-fit text-2xl  md:text-4xl font-bold bg-gradient-to-r from-blue-200 to-blue-400 bg-clip-text text-transparent">Power Up with Samsung Tech</h1>
       </div>
       {/* Show Products */}
-      <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-5 px-2 md:px-6 lg:px-10 py-8 gap-2 sm:gap-4">
+      <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-5 px-2 md:px-6 space-y-2 lg:px-10 py-8 gap-2 sm:gap-4">
       {samsungProducts.map((item, index) => (
         <Link 
         to={`/product/${item._id}`}

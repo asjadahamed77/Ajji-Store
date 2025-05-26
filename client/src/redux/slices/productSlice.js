@@ -8,6 +8,7 @@ const initialState = {
   selectedProduct: null,
   singleProduct: null,
   newArrivals: [],
+  relatedProducts: [],
   appleProducts: [],
   samsungProducts: [],
   accessories: [],
@@ -69,6 +70,20 @@ export const fetchNewArrivals = createAsyncThunk(
     }
   }
 )
+
+export const fetchRelatedProducts = createAsyncThunk(
+  "products/fetchRelated",
+  async (productId, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`${backendUrl}/api/product/related/${productId}`);
+      console.log(data);
+      
+      return data.relatedProducts;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
 
 // Get Apple Products
 export const fetchAppleProducts = createAsyncThunk(
@@ -189,6 +204,21 @@ const productSlice = createSlice({
         state.newArrivals = [];
         toast.error(action.payload || "Failed to fetch new arrivals");
       })
+
+      // Related Products
+      
+    .addCase(fetchRelatedProducts.pending, (state) => {
+    
+      state.error = null;
+    })
+    .addCase(fetchRelatedProducts.fulfilled, (state, action) => {
+      state.loading = false;
+      state.relatedProducts = action.payload;
+    })
+    .addCase(fetchRelatedProducts.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
       // Apple Products
       .addCase(fetchAppleProducts.pending, (state) => {
