@@ -47,10 +47,10 @@ const UserProfile = ({ showUserProfile, setShowUserProfile }) => {
 
   return (
     showUserProfile && (
-      <div className="fixed inset-0 backdrop-blur-3xl flex items-center justify-center z-50">
+      <div className="fixed inset-0 backdrop-blur-3xl bg-blue-900/5 flex items-center justify-center z-50">
         <div
           ref={modalRef}
-          className="lg:w-[400px] max-h-[60vh] overflow-y-scroll border bg-white/30 border-blue-50 w-[350px] flex flex-col backdrop-blur-[500px] rounded-[20px] shadow-lg px-4 py-6"
+          className="lg:w-[500px] sm:w-[425px] max-h-[90vh] overflow-y-scroll border bg-blue-950/30 border-blue-50 w-[350px] flex flex-col backdrop-blur-[500px] rounded-[20px] shadow-lg px-4 py-6"
         >
           <h1 className="text-xl text-white">
             Hello <span className="font-semibold">{user.name},</span>
@@ -190,14 +190,14 @@ const UserProfile = ({ showUserProfile, setShowUserProfile }) => {
             {editMode ? (
               <button
                 onClick={handleSave}
-                className="border rounded-[12px] mt-2 hover:opacity-80 duration-300 transition-all cursor-pointer text-sm py-2"
+                className="border rounded-[12px] bg-white text-blue-950 font-medium mt-2 hover:opacity-80 duration-300 transition-all cursor-pointer text-sm py-2"
               >
                 Save Changes
               </button>
             ) : (
               <button
                 onClick={() => setEditMode(true)}
-                className="border mt-2 rounded-[12px] hover:opacity-80 duration-300 transition-all cursor-pointer text-sm py-2"
+                className="border mt-2 rounded-[12px] bg-white text-blue-950 font-medium hover:opacity-80 duration-300 transition-all cursor-pointer text-sm py-2"
               >
                 Edit Profile
               </button>

@@ -47,7 +47,7 @@ const HomeAccessories = () => {
         <h1 className="w-fit text-2xl  md:text-4xl font-bold bg-gradient-to-r from-blue-200 to-blue-400 bg-clip-text text-transparent">Gear Up with the Latest Accessories</h1>
       </div>
       {/* Show Products */}
-      <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-5 px-2 md:px-6 lg:px-10 py-8 gap-2 sm:gap-4">
+      <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-5 px-2 md:px-6 lg:px-10 py-8 gap-2 space-y-2 sm:gap-4">
       {accessories.map((item, index) => (
         <Link 
         to={`/product/${item._id}`}

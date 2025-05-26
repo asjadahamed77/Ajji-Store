@@ -5,6 +5,7 @@ import { getSingleProduct } from '../redux/slices/productSlice';
 import { addToCart } from "../redux/slices/cartSlice";
 import toast from "react-hot-toast";
 import  { useNavigate } from "react-router-dom"
+import RelatedProducts from '../components/RelatedProducts';
 
 const ProductDisplay = () => {
   const dispatch = useDispatch();
@@ -249,6 +250,9 @@ const ProductDisplay = () => {
             ))}
           </div>
         )}
+      </div>
+      <div>
+      <RelatedProducts id={singleProduct._id} />
       </div>
     </div>
   );
