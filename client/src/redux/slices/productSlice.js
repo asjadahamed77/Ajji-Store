@@ -7,6 +7,7 @@ const initialState = {
   products: [],
   selectedProduct: null,
   singleProduct: null,
+  newArrivals: [],
   appleProducts: [],
   samsungProducts: [],
   accessories: [],
@@ -51,6 +52,23 @@ export const getSingleProduct = createAsyncThunk(
     }
   }
 );
+
+// Get new arrivals
+export const fetchNewArrivals = createAsyncThunk(
+  "products/fetchNewArrivals",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`${backendUrl}/api/product/new-arrivals`);
+
+      return data.newArrivals;
+    
+      
+    } catch (error) {
+      toast.error("Failed to load new arrivals");
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+)
 
 // Get Apple Products
 export const fetchAppleProducts = createAsyncThunk(
@@ -154,9 +172,27 @@ const productSlice = createSlice({
         state.singleProduct = null;
         toast.error(action.payload || "Failed to fetch product");
       })
+
+      // New Arrivals
+      .addCase(fetchNewArrivals.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.newArrivals = [];
+      })
+      .addCase(fetchNewArrivals.fulfilled, (state, action) => {
+        state.loading = false;
+        state.newArrivals = action.payload;
+      })
+      .addCase(fetchNewArrivals.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.newArrivals = [];
+        toast.error(action.payload || "Failed to fetch new arrivals");
+      })
+
       // Apple Products
       .addCase(fetchAppleProducts.pending, (state) => {
-        state.loading = [];
+        state.loading = true;
         state.error = null;
         state.appleProducts = null;
       })
@@ -165,14 +201,14 @@ const productSlice = createSlice({
         state.appleProducts = action.payload;
       })
       .addCase(fetchAppleProducts.rejected, (state, action) => {
-        state.loading = [];
+        state.loading = false;
         state.error = action.payload;
         state.appleProducts = null;
         toast.error(action.payload || "Failed to fetch product");
       })
       // Samsung Products
       .addCase(fetchSamsungProducts.pending, (state) => {
-        state.loading = [];
+        state.loading = true;
         state.error = null;
         state.samsungProducts = null;
       })
@@ -181,14 +217,14 @@ const productSlice = createSlice({
         state.samsungProducts = action.payload;
       })
       .addCase(fetchSamsungProducts.rejected, (state, action) => {
-        state.loading = [];
+        state.loading = false;
         state.error = action.payload;
         state.samsungProducts = null;
         toast.error(action.payload || "Failed to fetch product");
       })
        // Accessory Products
        .addCase(fetchAccessories.pending, (state) => {
-        state.loading = [];
+        state.loading = true;
         state.error = null;
         state.accessories = null;
       })
@@ -197,14 +233,14 @@ const productSlice = createSlice({
         state.accessories = action.payload;
       })
       .addCase(fetchAccessories.rejected, (state, action) => {
-        state.loading = [];
+        state.loading = false;
         state.error = action.payload;
         state.accessories = null;
         toast.error(action.payload || "Failed to fetch product");
       })
        // Fetch Products
        .addCase(fetchTablets.pending, (state) => {
-        state.loading = [];
+        state.loading = true;
         state.error = null;
         state.tabs = null;
       })
@@ -213,7 +249,7 @@ const productSlice = createSlice({
         state.tabs = action.payload;
       })
       .addCase(fetchTablets.rejected, (state, action) => {
-        state.loading = [];
+        state.loading = false;
         state.error = action.payload;
         state.tabs = null;
         toast.error(action.payload || "Failed to fetch product");

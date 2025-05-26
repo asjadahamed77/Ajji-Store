@@ -3,6 +3,7 @@ import fs from "fs";
 import { Product } from "../models/product.js";
 import { log } from "console";
 
+
 // Helper to upload image to Cloudinary and return URL
 const uploadToCloudinary = async (path) => {
   const result = await cloudinary.uploader.upload(path, {
@@ -186,6 +187,20 @@ export const getProducts = async (req, res) => {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+export const getNewArrivals = async (req, res) => {
+  try {
+    const newArrivals = await Product.find({})
+      .sort({ createdAt: -1 })
+      .limit(10)
+      
+
+    res.status(200).json({ success: true, newArrivals });
+  } catch (err) {
+    console.error("Get New Arrivals Error:", err);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
 
 export const getProductsByCategory = async (req, res) => {
   try {
