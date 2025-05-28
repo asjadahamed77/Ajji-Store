@@ -63,7 +63,7 @@ const Orders = () => {
               <div key={order._id} className='bg-white/5 p-6 rounded-lg shadow-lg'>
                 <div className='flex flex-col md:flex-row justify-between mb-4'>
                   <div>
-                    <h2 className='text-xl font-semibold text-blue-200'>Order #{order._id.slice(-6)}</h2>
+                    <h2 className='text-xl font-semibold text-blue-200'>Order #{order._id}</h2>
                     <p className='text-blue-300/70 text-sm'>
                       Placed on {dayjs(order.createdAt).format('MMMM D, YYYY hh:mm A')}
                     </p>
@@ -87,6 +87,7 @@ const Orders = () => {
                     <h3 className='text-lg font-medium text-blue-200 mb-2'>Customer Information</h3>
                     {order.user ? (
                       <div className='text-sm text-blue-300/70'>
+                        <p><span className='font-medium'>Username:</span> {order.user.username}</p>
                         <p><span className='font-medium'>Name:</span> {order.user.name}</p>
                         <p><span className='font-medium'>Email:</span> {order.user.email}</p>
                         {order.user.phone && <p><span className='font-medium'>Phone:</span> {order.user.phone}</p>}

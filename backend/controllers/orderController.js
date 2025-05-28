@@ -140,7 +140,7 @@ export const getUserOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: userId })
       .sort({ createdAt: -1 })
-      .populate('user', 'name email phone address');
+      .populate('user', 'username name email phone address');
 
     res.status(200).json({ success: true, orders });
   } catch (error) {
@@ -151,7 +151,7 @@ export const getUserOrders = async (req, res) => {
 
 export const getAdminOrders = async (req,res)=>{
     try {
-        const orders = await Order.find({}).populate('user', 'name email phone address');
+        const orders = await Order.find({}).populate('user', 'username name email phone address');
         res.status(200).json({ success: true, orders });
     } catch (error) {
         console.error("Error fetching orders:", error);
@@ -196,45 +196,10 @@ export const updateOrderToPaid = async (req, res) => {
   }
 };
 
-// Update order to delivered
-export const updateOrderToDelivered = async (req, res) => {
-  const { orderId } = req.params;
-  
-
-  try {
-    const order = await Order.findOne({ 
-      _id: orderId,
-    
-    });
-
-    if (!order) {
-      return res.status(404).json({ 
-        success: false, 
-        message: "Order not found" 
-      });
-    }
-
-    order.isDelivered = true;
-    order.deliveredAt = Date.now();
-    order.status = "Delivered";
-
-    await order.save();
-
-    res.status(200).json({ 
-      success: true, 
-      order,
-      message: "Order marked as delivered" 
-    });
-  } catch (error) {
-    console.error("Error updating order:", error);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-};
-
 // Update order to shipped
 export const updateOrderToShipped = async (req, res) => {
   const { orderId } = req.params;
-  
+ 
   
 
 
@@ -266,3 +231,40 @@ export const updateOrderToShipped = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+
+// Update order to delivered
+export const updateOrderToDelivered = async (req, res) => {
+  const { orderId } = req.params;
+ 
+
+  try {
+    const order = await Order.findOne({ 
+      _id: orderId,
+
+    });
+
+    if (!order) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "Order not found" 
+      });
+    }
+
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+    order.status = "Delivered";
+
+    await order.save();
+
+    res.status(200).json({ 
+      success: true, 
+      order,
+      message: "Order marked as delivered" 
+    });
+  } catch (error) {
+    console.error("Error updating order:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
