@@ -30,12 +30,12 @@ const Hero = () => {
           Discover the latest smartphones and accessories with fast delivery, secure payments, and a smooth shopping experience.
         </p>
         <div className='flex w-fit items-center justify-self-start gap-4 mt-6'>
-          <button className='text-xs sm:text-sm md:text-base px-8 py-2 border-2 bg-gradient-to-b from-blue-400 to-blue-800 rounded-lg hover:opacity-80 cursor-pointer transition-all duration-300 '>
+          <a href='#shop' className='text-xs sm:text-sm md:text-base px-8 py-2 border-2 bg-gradient-to-b from-blue-400 to-blue-800 rounded-lg hover:opacity-80 cursor-pointer transition-all duration-300 '>
             Shop Now
-          </button>
-          <button className='text-xs sm:text-sm md:text-base px-8 py-2 bg-transparent  border-2 rounded-lg hover:opacity-80 cursor-pointer transition-all duration-300 '>
+          </a>
+          <a href='#shop' className='text-xs sm:text-sm md:text-base px-8 py-2 bg-transparent  border-2 rounded-lg hover:opacity-80 cursor-pointer transition-all duration-300 '>
             Learn More
-          </button>
+          </a>
         </div>
       </div>
     </div>

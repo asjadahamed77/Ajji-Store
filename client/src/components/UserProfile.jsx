@@ -50,7 +50,7 @@ const UserProfile = ({ showUserProfile, setShowUserProfile }) => {
       <div className="fixed inset-0 backdrop-blur-3xl bg-blue-900/5 flex items-center justify-center z-50">
         <div
           ref={modalRef}
-          className="lg:w-[500px] sm:w-[425px] max-h-[90vh] overflow-y-scroll border bg-blue-950/30 border-blue-50 w-[350px] flex flex-col backdrop-blur-[500px] rounded-[20px] shadow-lg px-4 py-6"
+          className="lg:w-[500px] sm:w-[425px] max-h-[90vh] overflow-y-scroll border bg-blue-950/30 border-blue-50 w-[350px] flex flex-col backdrop-blur-[500px] rounded-[8px] shadow-lg px-4 py-6"
         >
           <h1 className="text-xl text-white">
             Hello <span className="font-semibold">{user.name},</span>

@@ -39,7 +39,7 @@ const NewArrivals = () => {
       )
     }
   return newArrivals && (
-    <div>
+    <div className='' id='shop'>
        {/* Title Text */}
        <div>
         <h1 className="w-fit text-2xl  md:text-4xl font-bold bg-gradient-to-r from-blue-200 to-blue-400 bg-clip-text text-transparent">Latest Arrivals at Ajji-Store</h1>
@@ -49,6 +49,7 @@ const NewArrivals = () => {
       {newArrivals.map((item, index) => (
         <Link 
         to={`/product/${item._id}`}
+        onClick={() => window.scrollTo(0, 0)}
           key={index}
           className="sm:p-4 p-2 border border-blue-200 rounded-lg flex flex-col items-center cursor-pointer duration-300 transform hover:-translate-y-2 shadow-amber-50 shadow-md"
         >

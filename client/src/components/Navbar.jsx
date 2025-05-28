@@ -105,7 +105,7 @@ const Navbar = ({setShowUserProfile}) => {
             <NavLink
               key={link.name}
               to={link.path}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => {setMobileMenuOpen(false); window.scrollTo(0, 0)}}
               className={({ isActive }) =>
                 `uppercase text-lg transition-all duration-300 ${
                   isActive ? 'text-white underline' : 'text-gray-300 hover:opacity-80 hover:underline'
