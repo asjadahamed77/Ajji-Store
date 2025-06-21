@@ -9,6 +9,7 @@ import {
 import { MdDeleteSweep } from "react-icons/md";
 import toast from "react-hot-toast";
 import {useNavigate} from "react-router-dom"
+import { autheticated } from "../redux/slices/authSlice";
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const CartPage = () => {
 
   useEffect(() => {
     dispatch(getCart());
+    dispatch(autheticated())
   }, [dispatch]);
 
   if (loading) {

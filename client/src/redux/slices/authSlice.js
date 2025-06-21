@@ -102,6 +102,30 @@ export const login = createAsyncThunk(
   }
 );
 
+// IS Auth
+// LOGIN
+export const autheticated = createAsyncThunk(
+  "auth/autheticated",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`${backendUrl}/api/auth/is-auth`,  {
+        withCredentials: true,
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (data.success) {
+       
+        return data;
+      } else {
+        toast.error(data.message);
+        return rejectWithValue(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+      return rejectWithValue(error.response?.data?.message || "Authentication failed");
+    }
+  }
+);
+
 // LOGOUT
 export const logout = createAsyncThunk("auth/logout", async (_, { rejectWithValue }) => {
   try {
@@ -210,6 +234,22 @@ const authSlice = createSlice({
         state.successMessage = action.payload.message;
       })
       .addCase(login.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // Is Auth
+      .addCase(autheticated.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.successMessage = null;
+      })
+      .addCase(autheticated.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        state.successMessage = action.payload.message;
+      })
+      .addCase(autheticated.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

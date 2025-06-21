@@ -7,7 +7,7 @@ import store from "./redux/store";
 import { Toaster } from "react-hot-toast";
 import Login from "./authentication/Login";
 import UserProfile from "./components/UserProfile";
-import { useState } from "react";
+import {  useState } from "react";
 import Products from "./pages/Products";
 import ProductDisplay from "./pages/ProductDisplay";
 import Home from "./pages/Home";
@@ -23,7 +23,7 @@ function App() {
     location.pathname === "/register-user" || location.pathname === "/login";
 
     const [showUserProfile,setShowUserProfile] = useState(false)
-
+  
   return (
     <>
       <Provider store={store}>

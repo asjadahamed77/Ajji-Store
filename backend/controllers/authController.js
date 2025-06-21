@@ -201,8 +201,8 @@ export const logoutUser = async (req, res) => {
 // IS AUTHENTICATED
 export const isAuthenticated = async (req, res) => {
   try {
-    const { id } = req.params;
-    const user = await userModel.findById(id);
+    const userId = req.user.id;
+    const user = await userModel.findById({userId});
     if (!user) return res.json({ success: false, message: "User not found" });
 
     return res.json({ success: true });
