@@ -6,11 +6,13 @@ import HomeTablets from './HomeTablets'
 import OurValues from './OurValues'
 import Hero from './Hero'
 import NewArrivals from './NewArrivals'
+import Categories from './Categories'
 
 const HomeCategories = () => {
   return (
     <div className='px-4 md:px-6 lg:px-10 py-8 space-y-12'>
       <Hero />
+      <Categories />
       <NewArrivals />
       <HomeApple />
       <HomeSamsung />

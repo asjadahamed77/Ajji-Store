@@ -2,6 +2,20 @@
 
 
 
+@layer utilities {
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 20s linear infinite;
+  }
+}
 body{
   background: linear-gradient(to right, #010b16 , #003355 , #010b16);
   font-family: "Noto Sans", sans-serif;
