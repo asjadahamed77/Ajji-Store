@@ -22,7 +22,7 @@ const Products = () => {
       <div className='min-h-screen  py-8 px-4 sm:px-6 lg:px-8'>
         <div className='max-w-7xl mx-auto'>
           <div className='text-center'>
-            <div className="animate-spin rounded-full h-12 w-12 mt-8 border-b-2 border-blue-400 mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 mt-8 border-b-2 border-price mx-auto"></div>
             <p className="mt-4 text-blue-300">Loading...</p>
           </div>
         </div>
@@ -50,7 +50,7 @@ const Products = () => {
           placeholder={`Search in ${category}...`}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full p-2 border border-blue-200 rounded-md "
+          className="w-full p-2 border border-from rounded-md "
         />
       </div>
 
@@ -70,7 +70,7 @@ const Products = () => {
                  className="w-60 h-60 object-contain bg-white"
                 />
               </div>
-              <p className="text-blue-200 font-semibold mt-4 capitalize">{item.name}</p>
+              <p className="bg-gradient-to-r from-from to-to bg-clip-text text-transparent  font-semibold mt-4 capitalize ">{item.name}</p>
 
               {(!Array.isArray(item.variants) || item.variants.length === 0) ? (
                 <p className="text-blue-100 font-normal text-sm">
@@ -80,9 +80,9 @@ const Products = () => {
                   </span>
                 </p>
               ) : (
-                <p className="text-blue-100 font-normal text-sm">
+                <p className="bg-gradient-to-r from-from to-to bg-clip-text text-transparent  font-normal text-sm">
                   Starting at{" "}
-                  <span className="font-semibold text-base text-blue-300">
+                  <span className="font-semibold text-base text-price">
                     Rs.{item.variants[0].price}
                   </span>
                 </p>
@@ -92,7 +92,7 @@ const Products = () => {
         </div>
       ) : (
         <div className="flex justify-center items-center h-[70vh]">
-          <p className="text-sm text-blue-200 font-semibold">No products found...</p>
+          <p className="text-sm   font-semibold">No products found...</p>
         </div>
       )}
     </div>

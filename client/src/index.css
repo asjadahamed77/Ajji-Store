@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+
 @import "tailwindcss";
 
 
@@ -16,6 +18,14 @@
     animation: marquee 20s linear infinite;
   }
 }
+
+@theme{
+  --font-arvo: "Cinzel", "serif";
+  --color-from: rgba(255, 255, 255, 0.8);
+--color-to: rgba(255, 255, 255, 0.6);
+--color-price: #91C8E4;
+}
+
 body{
   background: linear-gradient(to right, #010b16 , #003355 , #010b16);
   font-family: "Noto Sans", sans-serif;

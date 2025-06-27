@@ -60,7 +60,7 @@ const PayPalButton = ({ amount, onSuccess, onError }) => {
                     }}
                 />
                 {loading && (
-                    <div className="mt-4 text-center text-blue-300">
+                    <div className="mt-4 text-center text-price">
                         Processing payment...
                     </div>
                 )}

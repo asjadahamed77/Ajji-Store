@@ -22,7 +22,7 @@ const Footer = () => {
       {/* Footer Left */}
       <div>
         <img src={logo} alt="ajji-store" className="w-32" />
-        <p className="text-xs w-[75%] sm:w-full  mt-2 text-blue-200">
+        <p className="text-xs font-light w-[75%] sm:w-full  mt-2 bg-gradient-to-r from-from to-to bg-clip-text text-transparent">
           AjjiStore is your one-stop destination for the latest smartphones,
           tablets, laptops, MacBooks, accessories, and more. Whether you're
           upgrading your device or looking for high-quality tech gear, we bring
@@ -34,7 +34,7 @@ const Footer = () => {
         <div className="grid grid-cols-2  space-x-24 space-y-4 mt-4">
     {
         navLinks.map((item, index)=>(
-            <Link onClick={()=> scrollTo(0,0)} key={index} to={item.path} className="text-sm uppercase hover:opacity-75 duration-300 text-blue-200 ">
+            <Link onClick={()=> scrollTo(0,0)} key={index} to={item.path} className="text-sm uppercase bg-gradient-to-r from-from to-to bg-clip-text text-transparent hover:opacity-75 duration-300  ">
             {item.name}
             </Link>
         ))
@@ -44,7 +44,7 @@ const Footer = () => {
       <div>
       <h1 className="text-lg uppercase font-semibold">Subscribe us</h1>
       <div>
-        <p className="text-sm text-blue-200 mt-2">
+        <p className="text-sm bg-gradient-to-r from-from to-to bg-clip-text text-transparent mt-2">
           Subscribe to our newsletter for the latest updates and offers.
         </p>
         <div className="flex items-center gap-2 mt-4">

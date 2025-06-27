@@ -116,8 +116,8 @@ const Checkout = () => {
             <div className='min-h-screenpy-8 px-4 sm:px-6 lg:px-8'>
                 <div className='max-w-7xl mx-auto'>
                     <div className='text-center'>
-                        <h1 className='text-3xl font-bold text-blue-200 mb-4'>Your Cart is Empty</h1>
-                        <p className='text-blue-300 mb-8'>Add some items to your cart before checking out.</p>
+                        <h1 className='text-3xl font-bold bg-gradient-to-r from-from to-to bg-clip-text text-transparent mb-4'>Your Cart is Empty</h1>
+                        <p className='bg-gradient-to-r from-from to-to bg-clip-text text-transparent mb-8'>Add some items to your cart before checking out.</p>
                         <button
                             onClick={() => navigate('/products')}
                             className='px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors'
@@ -133,7 +133,7 @@ const Checkout = () => {
     return (
         <div className='min-h-screen  py-8 px-4 sm:px-6 lg:px-8'>
             <div className='max-w-7xl mx-auto'>
-                <h1 className='text-3xl font-bold text-blue-200 mb-8'>Checkout</h1>
+                <h1 className='text-3xl font-bold bg-gradient-to-r from-from to-to bg-clip-text text-transparent mb-8'>Checkout</h1>
                 
                 {(error || orderError) && (
                     <div className='mb-4 p-4 bg-red-500/10 border border-red-500/30 rounded text-red-400'>
@@ -145,10 +145,10 @@ const Checkout = () => {
                     {/* Shipping Information */}
                     <div className='flex-1'>
                         <div className='bg-white/5 p-6 rounded-lg shadow-lg'>
-                            <h2 className='text-xl font-semibold text-blue-200 mb-6'>Shipping Information</h2>
+                            <h2 className='text-xl font-semibold bg-gradient-to-r from-from to-to bg-clip-text text-transparent mb-6'>Shipping Information</h2>
                             <div className='space-y-4'>
                                 <div>
-                                    <label className='block text-blue-300 mb-2'>Full Name</label>
+                                    <label className='block bg-gradient-to-r from-from to-to bg-clip-text text-transparent mb-2'>Full Name</label>
                                     <input
                                         type="text"
                                         name="name"
@@ -159,7 +159,7 @@ const Checkout = () => {
                                     />
                                 </div>
                                 <div>
-                                    <label className='block text-blue-300 mb-2'>Street Address</label>
+                                    <label className='block bg-gradient-to-r from-from to-to bg-clip-text text-transparent mb-2'>Street Address</label>
                                     <input
                                         type="text"
                                         name="street"
@@ -170,7 +170,7 @@ const Checkout = () => {
                                     />
                                 </div>
                                 <div>
-                                    <label className='block text-blue-300 mb-2'>City</label>
+                                    <label className='block bg-gradient-to-r from-from to-to bg-clip-text text-transparent mb-2'>City</label>
                                     <input
                                         type="text"
                                         name="city"
@@ -181,7 +181,7 @@ const Checkout = () => {
                                     />
                                 </div>
                                 <div>
-                                    <label className='block text-blue-300 mb-2'>ZIP Code</label>
+                                    <label className='block bg-gradient-to-r from-from to-to bg-clip-text text-transparent mb-2'>ZIP Code</label>
                                     <input
                                         type="text"
                                         name="zipCode"
@@ -192,7 +192,7 @@ const Checkout = () => {
                                     />
                                 </div>
                                 <div>
-                                    <label className='block text-blue-300 mb-2'>Country</label>
+                                    <label className='block bg-gradient-to-r from-from to-to bg-clip-text text-transparent mb-2'>Country</label>
                                     <input
                                         type="text"
                                         name="country"
@@ -209,29 +209,29 @@ const Checkout = () => {
                     {/* Order Summary & Payment */}
                     <div className='lg:w-96'>
                         <div className='bg-white/5 p-6 rounded-lg shadow-lg sticky top-8'>
-                            <h2 className='text-xl font-semibold text-blue-200 mb-6'>Order Summary</h2>
+                            <h2 className='text-xl font-semibold bg-gradient-to-r from-from to-to bg-clip-text text-transparent mb-6'>Order Summary</h2>
                             <div className='space-y-4 mb-6'>
                                 {cartItems.map((item,index) => (
                                     <div key={index} className='flex justify-between items-center'>
                                         <div>
-                                            <p className='font-medium text-blue-200'>{item.name}</p>
-                                            <p className='text-sm text-blue-300/70'>
+                                            <p className='font-medium bg-gradient-to-r from-from to-to bg-clip-text text-transparent'>{item.name}</p>
+                                            <p className='text-sm bg-gradient-to-r from-from to-to bg-clip-text text-transparent'>
                                                 {item.quantity} x Rs.{item.price}
                                                 {item.color && ` - ${item.color}`}
                                                 {item.storage && ` - ${item.storage}`}
                                             </p>
                                         </div>
-                                        <p className='font-medium text-blue-200'>Rs.{item.price * item.quantity}</p>
+                                        <p className='font-medium text-price'>Rs.{item.price * item.quantity}</p>
                                     </div>
                                 ))}
                                 <div className='border-t border-blue-300/20 my-4'></div>
-                                <div className='flex justify-between text-blue-200 font-semibold text-lg'>
+                                <div className='flex justify-between bg-gradient-to-r from-from to-to bg-clip-text text-transparent  font-semibold text-lg'>
                                     <span>Total</span>
                                     <span>Rs.{cart.totalPrice}</span>
                                 </div>
                             </div>
                             <div className='space-y-4'>
-                                <h3 className='text-lg font-medium text-blue-200'>Payment Method</h3>
+                                <h3 className='text-lg font-medium bg-gradient-to-r from-from to-to bg-clip-text text-transparent'>Payment Method</h3>
                                 <div className='bg-white/10 p-4 rounded'>
                                     {loading ? (
                                         <div className="text-center py-4">
