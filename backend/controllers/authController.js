@@ -198,19 +198,6 @@ export const logoutUser = async (req, res) => {
   }
 };
 
-// IS AUTHENTICATED
-export const isAuthenticated = async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const user = await userModel.findById({userId});
-    if (!user) return res.json({ success: false, message: "User not found" });
-
-    return res.json({ success: true });
-  } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: "Authentication check failed" });
-  }
-};
 
 // SEND RESET OTP
 export const sendResetOtp = async (req, res) => {

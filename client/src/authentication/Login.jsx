@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import logo from '../assets/logo/AjjiStore.png';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { autheticated, login } from '../redux/slices/authSlice';
+import { login } from '../redux/slices/authSlice';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const Login = () => {
 
     if (login.fulfilled.match(result)) {
       navigate("/");
-      autheticated()
+   
       setFormData({
         identifier: '',
         password: '',
