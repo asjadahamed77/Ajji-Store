@@ -106,8 +106,8 @@ const ProductDisplay = () => {
       <div className="min-h-screen  py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 mt-8 border-b-2 border-blue-400 mx-auto"></div>
-            <p className="mt-4 text-blue-300">Loading...</p>
+            <div className="animate-spin rounded-full h-12 w-12 mt-8 border-b-2 border-to mx-auto"></div>
+            <p className="mt-4 bg-gradient-to-r from-from to-to bg-clip-text text-transparent">Loading...</p>
           </div>
         </div>
       </div>
@@ -170,7 +170,7 @@ const ProductDisplay = () => {
           </div>
 
           {/* Product Details */}
-          <div className="flex-1 text-blue-200">
+          <div className="flex-1 bg-gradient-to-r from-from to-to bg-clip-text text-transparent">
             <h2 className="text-2xl font-semibold mb-4 capitalize">
               {singleProduct.name}
             </h2>
@@ -228,7 +228,7 @@ const ProductDisplay = () => {
 
                 {/* Price and Stock */}
                 {filteredVariant && (
-                  <p className="text-lg mt-4 font-semibold">
+                  <p className="text-lg mt-4 font-semibold text-price">
                     Price: Rs.{filteredVariant.price.toLocaleString()}
                   </p>
                 )}
@@ -238,7 +238,7 @@ const ProductDisplay = () => {
               </>
             ) : (
               <>
-                <p className="text-lg mt-4 font-semibold">
+                <p className="text-lg mt-4 font-semibold text-price">
                   Price: Rs.{singleProduct.price?.toLocaleString()}
                 </p>
                 {singleProduct.stock === 0 && (
@@ -248,7 +248,7 @@ const ProductDisplay = () => {
             )}
             <hr className="mt-4 bg-white/30 h-0.5 border-0" />
                  {/* Specifications */}
-            <ul className="mt-4 list-disc pl-6 text-sm font-light ">
+            <ul className="mt-4 list-disc text-white pl-6 text-sm font-light ">
          
 
               {Array.isArray(singleProduct.specifications) &&
@@ -266,7 +266,7 @@ const ProductDisplay = () => {
             </ul>
 
             <button
-              className="w-fit px-12 py-2 rounded border mt-8 font-semibold cursor-pointer hover:bg-white hover:text-blue-950 duration-300 transition-all"
+              className="w-fit px-12 py-2 rounded border border-white mt-8 font-semibold cursor-pointer hover:bg-white hover:text-blue-950 duration-300 transition-all"
               onClick={handleAddToCart}
             >
               ADD TO CART

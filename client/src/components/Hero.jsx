@@ -23,10 +23,10 @@ const Hero = () => {
         className='w-full h-full absolute inset-0 object-cover rounded-3xl'
       />
       <div className='absolute inset-0 bg-black/50 flex flex-col justify-center sm:items-start xl:pl-32 md:pl-16 sm:pl-8 px-4'>
-        <h1 className="w-fit text-2xl lg:text-6xl sm:text-4xl font-bold bg-gradient-to-l from-blue-200 to-blue-400 text-shadow-xs bg-clip-text text-transparent">
+        <h1 className="w-fit text-2xl lg:text-6xl sm:text-4xl font-bold bg-gradient-to-r from-from to-to bg-clip-text text-transparent  text-shadow-xs ">
           Your one-stop Mobile Store
         </h1>
-        <p className='md:text-lg text-sm lg:max-w-[600px] mt-4 text-blue-200'>
+        <p className='md:text-lg text-sm lg:max-w-[600px] mt-4 text-white'>
           Discover the latest smartphones and accessories with fast delivery, secure payments, and a smooth shopping experience.
         </p>
         <div className='flex w-fit items-center justify-self-start gap-4 mt-6'>
