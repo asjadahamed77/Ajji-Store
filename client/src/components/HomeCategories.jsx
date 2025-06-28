@@ -8,6 +8,7 @@ import Hero from './Hero'
 import NewArrivals from './NewArrivals'
 import Categories from './Categories'
 import Faq from './Faq'
+import Contact from './Contact'
 
 const HomeCategories = () => {
   return (
@@ -19,6 +20,7 @@ const HomeCategories = () => {
       <HomeSamsung />
       <HomeTablets />
       <HomeAccessories />
+      <Contact />
       <OurValues />
       <Faq />
     </div>
