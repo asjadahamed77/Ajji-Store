@@ -7,6 +7,7 @@ import OurValues from './OurValues'
 import Hero from './Hero'
 import NewArrivals from './NewArrivals'
 import Categories from './Categories'
+import Faq from './Faq'
 
 const HomeCategories = () => {
   return (
@@ -19,6 +20,7 @@ const HomeCategories = () => {
       <HomeTablets />
       <HomeAccessories />
       <OurValues />
+      <Faq />
     </div>
   )
 }
