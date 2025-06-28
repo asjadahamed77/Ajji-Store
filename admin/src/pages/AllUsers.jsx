@@ -69,7 +69,7 @@ const AllUsers = () => {
       <div className="grid lg:grid-cols-2 gap-4">
         {filteredUsers.length > 0 ? (
           filteredUsers.map((user, index) => (
-            <div key={index} className="p-4 bg-white/10 text-blue-300 rounded-xl space-y-2">
+            <div key={index} className="p-4 bg-white/10 text-blue-300 rounded-xl space-y-2 w-fit">
               <p className="text-sm md:text-base font-semibold">
                 Name: <span className="font-medium">{user.name}</span>
               </p>

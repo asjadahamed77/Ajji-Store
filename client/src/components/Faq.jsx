@@ -58,7 +58,7 @@ const Faq = () => {
             </div>
 
             {openIndex === index && (
-              <div className="text-sm sm:text-base mt-2 transition-opacity duration-300 ease-in opacity-100">
+              <div className="text-sm sm:text-base text-slate-300 mt-2 transition-opacity duration-300 ease-in opacity-100">
                 {item.answer}
               </div>
             )}
