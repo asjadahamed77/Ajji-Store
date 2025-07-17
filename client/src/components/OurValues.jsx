@@ -7,7 +7,7 @@ import { TiMessages } from "react-icons/ti";
 const OurValues = () => {
   return (
     <div className='grid sm:grid-cols-2 lg:grid-cols-4 xl:gap-12 gap-6 lg:px-20 px-4'>
-      <div className='flex gap-6 items-center justify-center p-4 border border-from rounded-lg shadow-md shadow-amber-50'> 
+      <div className='flex gap-6 items-center justify-center p-4 border border-from rounded-lg shadow-md shadow-amber-50 hover:-translate-y-4 duration-300 transform transition-transform'> 
         <p className='text-4xl text-to'>
             <TbTruckDelivery />
         </p>
@@ -16,7 +16,7 @@ const OurValues = () => {
             <p className='text-sm font-light'>Fast & Safe</p>
         </div>
       </div>
-      <div className='flex gap-6 items-center justify-center p-4 border border-from rounded-lg shadow-md shadow-amber-50'> 
+      <div className='flex gap-6 items-center justify-center p-4 border border-from rounded-lg shadow-md shadow-amber-50 hover:-translate-y-4 duration-300 transform transition-transform'> 
         <p className='text-4xl text-to'>
             <AiOutlineProduct />
         </p>
@@ -25,7 +25,7 @@ const OurValues = () => {
             <p className='text-sm font-light'>With Warranty</p>
         </div>
       </div>
-      <div className='flex gap-6 items-center justify-center p-4 border border-from rounded-lg shadow-md shadow-amber-50'> 
+      <div className='flex gap-6 items-center justify-center p-4 border border-from rounded-lg shadow-md shadow-amber-50 hover:-translate-y-4 duration-300 transform transition-transform' > 
         <p className='text-4xl text-to'>
             <MdOutlinePayment />
         </p>
@@ -34,7 +34,7 @@ const OurValues = () => {
             <p className='text-sm font-light'>100% Secure Payment</p>
         </div>
       </div>
-      <div className='flex  gap-6 items-center justify-center p-4 border border-from rounded-lg shadow-md shadow-amber-50'> 
+      <div className='flex  gap-6 items-center justify-center p-4 border border-from rounded-lg shadow-md shadow-amber-50 hover:-translate-y-4 duration-300 transform transition-transform'> 
         <p className='text-4xl text-to'>
             <TiMessages />
         </p>
