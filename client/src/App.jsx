@@ -21,23 +21,16 @@ function App() {
   const navigate = useNavigate();
 
   const { user, loading } = useSelector((state) => state.auth);
- 
-  
 
   const [showUserProfile, setShowUserProfile] = useState(false);
 
   const isAuthPage =
     location.pathname === "/register-user" || location.pathname === "/login";
 
-
-
-  // Optional: redirect unauthenticated users away from protected routes
+ 
   useEffect(() => {
     if (!loading && !user && !isAuthPage) {
-      // Optionally block access to pages like /checkout or /my-orders
-      if (
-        ["/checkout", "/my-orders"].includes(location.pathname)
-      ) {
+      if (["/checkout", "/my-orders"].includes(location.pathname)) {
         navigate("/login");
       }
     }
@@ -59,9 +52,7 @@ function App() {
         }}
       />
       {!isAuthPage && <TopBar />}
-      {!isAuthPage && (
-        <Navbar setShowUserProfile={setShowUserProfile} />
-      )}
+      {!isAuthPage && <Navbar setShowUserProfile={setShowUserProfile} />}
       {showUserProfile && (
         <UserProfile
           showUserProfile={showUserProfile}
