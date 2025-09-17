@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { Toaster } from "react-hot-toast";
+import TitleManager from "./common/TitleManager";
 
 function App() {
   const location = useLocation();
@@ -59,7 +60,9 @@ function App() {
           setShowUserProfile={setShowUserProfile}
         />
       )}
-      <Routes>
+    <TitleManager />
+
+    <Routes>
         <Route path="register-user" element={<RegisterUser />} />
         <Route path="" element={<Home />} />
         <Route path="login" element={<Login />} />
@@ -69,6 +72,8 @@ function App() {
         <Route path="checkout" element={<Checkout />} />
         <Route path="my-orders" element={<MyOrders />} />
       </Routes>
+
+ 
       {!isAuthPage && <Footer />}
     </>
   );
